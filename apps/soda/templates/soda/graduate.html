@@ -128,19 +128,20 @@
             <div class="members-grid">
                 {% for past_member in past_members %}
 <div class="member-card">
+    <div class="member-image-wrapper">
+        <img src="{{ past_member.public_image_url }}" alt="{{ past_member.member }}" class="member-image">
+    </div>
     <div class="member-info">
       <!--멤버 이름-->
         <div class="member-name-wrapper">
             <h3 class="member-name">
-                <span class="member-name-ko">{{ past_member_member.member }}</span>
-                <span class="member-name-en">{{ past_member_member.member_en }}</span> </h3>
+                <span class="member-name-ko">{{ past_member.member }}</span></h3>
         </div>
 
         <div class="degree-info">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             <div class="degree-detail">
                 <div class="degree-ko">{{ past_member.degree }}</div>
-                <div class="degree-en">{{ past_member.degree_en }}</div> 
             </div>
         </div>
         <div class="major-info">{{ past_member.department }}</div>
@@ -151,7 +152,7 @@
                 <span>연구 관심 분야</span>
             </div>
             <div class="research-tags">
-                {% for tag in past_member.interest_part.split(',') %}
+                {% for tag in past_member.affiliation.split(',') %}
                 <span class="research-tag">{{ tag.strip() }}</span>
                 {% endfor %}
             </div>
