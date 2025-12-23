@@ -1,27 +1,267 @@
-#main {
-    padding: 6em 0 2em 0;
-    z-index: 5000;
-    position:relative;
+/* =========================================
+   1. RESET & BASE (초기화 및 기본 설정)
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    overflow-x: hidden;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    color: #374151; /* 기본 텍스트 색상 지정 */
+}
+
+/* =========================================
+   2. LAYOUT (레이아웃 구조)
+   ========================================= */
+/* 메인 콘텐츠 래퍼 (푸터를 하단으로 밀기 위함) */
+.page-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: linear-gradient(to bottom right, #eff6ff, #dbeafe, #eff6ff);
+    z-index: 1; /* 배경 위로 컨텐츠 올림 */
+}
+
+.container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* 갤러리/메인 특정 섹션 스타일 (기존 코드 상단부 통합) */
+#main {
+    padding: 6em 0 2em 0;
+    position: relative;
+    z-index: 2;
+}
 
 section .inner {
-    max-width: 65em;
-    width: calc(100% - 6em);
+    max-width: 1280px; /* em 단위 대신 픽셀/퍼센트 통일 */
+    width: 90%;
     margin: 0 auto;
 }
 
+/* =========================================
+   3. HEADER / NAVIGATION
+   ========================================= */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+header.scrolled {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #dbeafe;
+}
+
+.header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+/* 로고 */
+.logo {
+    display: flex;
+    align-items: center;
+    /* margin-left: -100px; -> 과도한 음수 마진 제거하거나 필요시 조정 */
+}
+
+.logo-image {
+    height: 100px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover .logo-image {
+    transform: scale(1.02);
+}
+
+/* 네비게이션 */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+nav > a {
+    position: relative;
+    color: #374151;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+nav > a:hover,
+nav > a.active {
+    color: #1e3a8a;
+}
+
+nav > a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, #1e3a8a, #1e40af);
+    transition: width 0.3s ease;
+}
+
+nav > a:hover::after,
+nav > a.active::after {
+    width: 100%;
+}
+
+/* 드롭다운 메뉴 */
+.nav-item-with-dropdown {
+    position: relative;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.chevron-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.nav-item-with-dropdown:hover .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 192px;
+    background: white;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.nav-item-with-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: #374151;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+
+/* 모바일 메뉴 버튼 */
+.mobile-menu-button {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.mobile-menu-button svg {
+    width: 24px;
+    height: 24px;
+    color: #1e3a8a;
+}
+
+.mobile-menu {
+    display: none;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid #dbeafe;
+    padding: 16px;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-menu a {
+    display: block;
+    padding: 12px 16px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    margin-bottom: 4px;
+}
+
+.mobile-menu a:hover,
+.mobile-menu a.active {
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+
+.mobile-submenu {
+    padding-left: 16px;
+    margin-top: 4px;
+}
+
+.mobile-submenu a {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* =========================================
+   4. GALLERY COMPONENTS (갤러리 요소)
+   ========================================= */
 .entry {
     display: inline-block;
     width: 100%;
 }
 
-
 .entry-theme-photo {
-    max-width: 48em;
+    max-width: 800px; /* em 대신 픽셀 사용 권장 또는 반응형 처리 */
+    width: 100%;
     display: block;
-    margin: auto;
-    padding: 2em 0 2em 0;
+    margin: 0 auto;
+    padding: 2em 0;
 }
 
 .entry-theme-photo-head {
@@ -33,53 +273,323 @@ section .inner {
 .entry-theme-photo-title {
     display: inline-block;
     padding-bottom: 1em;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .photo-image {
     display: block;
-    margin: auto;
-    max-width: 70%;
-    height:400px;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 8px; /* 모서리 둥글게 (선택사항) */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* 그림자 추가 (선택사항) */
+}
+
+/* 수정된 부분: 반응형 Swiper */
+.swiper {
+    width: 100%;
+    max-width: 1000px; /* 최대 너비만 제한 */
+    margin: 0 auto;
+}
+
+/* =========================================
+   5. NEWS SECTION COMPONENTS
+   ========================================= */
+#news {
+    padding: 80px 0;
+    background: transparent; /* 배경 래퍼 색상 사용 */
+    position: relative;
+    z-index: 5;
+}
+
+.section-header {
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    font-weight: bold;
+    background: linear-gradient(to right, #1e3a8a, #1e40af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-description {
+    color: #6b7280;
+    max-width: 672px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.news-container {
+    max-width: 896px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.news-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.news-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.news-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.news-card.hidden {
+    display: none;
+}
+
+.news-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
+.news-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+    z-index: 10;
+}
+
+.news-image {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.swiper {
-    width: 1000px;
-  }
-
-
-
-html, body {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.news-info {
+    padding: 24px;
 }
 
-/* 메인 콘텐츠는 자동으로 늘어나게 */
-#main-content {
-  flex: 1;
+.news-date, .news-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    margin-bottom: 8px;
 }
 
-/* footer는 항상 맨 밑으로 */
-#footer {
-  margin-top: auto;
-  text-align:left;
+.news-date { color: #1e3a8a; }
+.news-location { color: #6b7280; margin-bottom: 12px; }
+
+.news-date svg, .news-location svg {
+    width: 16px;
+    height: 16px;
 }
 
-/* 반응형 대응 */
-@media screen and (max-width: 768px) {
-  #banner h1 {
-    font-size: 1.2em;
-  }
-  #banner span {
-    font-size: 0.8em;
-  }
-  .card-item {
-    height: auto;
-    padding: 1em;
-  }
-  #footer {
-    font-size: 0.7em;
+.news-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    background: linear-gradient(to right, #1e3a8a, #1e40af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
     line-height: 1.4;
-  }
+}
+
+.news-description {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* 네비게이션 버튼 & 도트 */
+.nav-button {
+    position: absolute;
+    top: 33.333%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #93c5fd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 20;
+}
+
+.nav-button:hover {
+    background: white;
+    border-color: #2563eb;
+}
+
+.nav-button svg {
+    width: 24px;
+    height: 24px;
+    color: #1e3a8a;
+}
+
+.nav-button-prev { left: 16px; }
+.nav-button-next { right: 16px; }
+
+.dots-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.dot {
+    height: 8px;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dot.active {
+    width: 32px;
+    background: linear-gradient(to right, #1e3a8a, #1e40af);
+}
+
+.dot.inactive {
+    width: 8px;
+    background: #d1d5db;
+}
+
+.dot.inactive:hover { background: #93c5fd; }
+
+/* =========================================
+   6. BACKGROUND DECORATION (배경 애니메이션)
+   ========================================= */
+.background-decoration {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: multiply;
+    filter: blur(64px);
+    opacity: 0.2;
+    animation: blob 7s infinite;
+}
+
+.blob-1 { top: 80px; right: 25%; width: 256px; height: 256px; background-color: #bfdbfe; }
+.blob-2 { top: 160px; left: 33.333%; width: 288px; height: 288px; background-color: #93c5fd; animation-delay: 4s; }
+.blob-3 { top: -160px; right: -160px; width: 320px; height: 320px; background-color: #93c5fd; }
+.blob-4 { bottom: -160px; left: -160px; width: 320px; height: 320px; background-color: #60a5fa; animation-delay: 2s; }
+.blob-5 { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 320px; height: 320px; background-color: #3b82f6; animation-delay: 4s; }
+.blob-6 { bottom: 25%; right: 33.333%; width: 256px; height: 256px; background-color: #60a5fa; animation-delay: 2s; }
+
+@keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(100px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.news-card.active {
+    animation: fadeIn 0.3s ease;
+}
+
+/* =========================================
+   7. FOOTER
+   ========================================= */
+footer {
+    background: linear-gradient(to bottom right, #111827, #172554, #1e3a8a);
+    color: white;
+    padding: 24px 0;
+    position: relative;
+    overflow: hidden;
+    margin-top: auto; /* 상단 컨텐츠가 짧아도 푸터는 맨 아래로 */
+    z-index: 10;
+}
+
+.footer-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.3;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
+}
+
+.footer-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 16px;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.footer-title {
+    margin-bottom: 8px;
+    background: linear-gradient(to right, #93c5fd, #bfdbfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.footer-address {
+    color: #bfdbfe;
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.footer-copyright {
+    color: rgba(147, 197, 253, 0.7);
+    font-size: 0.875rem;
+}
+
+/* =========================================
+   8. MEDIA QUERIES (반응형 대응)
+   ========================================= */
+@media (max-width: 768px) {
+    /* 모바일 헤더/네비게이션 처리 */
+    nav { display: none; } /* 데스크탑 메뉴 숨김 */
+    .mobile-menu-button { display: block; } /* 햄버거 버튼 표시 */
+    
+    .header-inner { height: 40px; }
+    .logo-image { height: 40px; }
+    
+    /* 뉴스 섹션 */
+    #news { padding: 40px 0; }
+    .section-header { margin-bottom: 40px; }
+    .section-title { font-size: 2rem; }
+    .news-info { padding: 20px; }
+    .news-title { font-size: 1.25rem; }
+    .nav-button { width: 36px; height: 36px; }
+    .nav-button svg { width: 20px; height: 20px; }
+    
+    /* 갤러리 섹션 */
+    #main { padding: 2em 0; }
+    .photo-image { max-height: 200px; }
+}
+
+@media (max-width: 640px) {
+    .section-title { font-size: 1.75rem; }
+    .news-info { padding: 16px; }
+    .news-title { font-size: 1.125rem; }
+    .nav-button-prev { left: 8px; }
+    .nav-button-next { right: 8px; }
 }

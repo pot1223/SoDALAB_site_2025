@@ -75,7 +75,7 @@ class home_content(db.Model):
 class activity_photo(db.Model):
     __tablename__ = "activity_photo"    
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(500), nullable = False)
-    date = db.Column(db.String(500), nullable = False)
-    activity_image = db.Column(db.String(255), nullable=False, default='default.jpg')
-    venue = db.Column(db.String(500), nullable = False)
+    title = db.Column(db.String(500), nullable = True)
+    date = db.Column(db.String(500), nullable = True)
+    activity_image = db.Column(db.String(255), nullable=True, default='default.jpg')
+    venue = db.Column(db.String(500), nullable = True)
