@@ -1,0 +1,45 @@
+ /* ========== FOOTER ========== */
+        footer {
+            background: linear-gradient(to bottom right, #111827, #172554, #1e3a8a);
+            color: white;
+            padding: 24px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.3;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .footer-title {
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #93c5fd, #bfdbfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .footer-address {
+            color: #bfdbfe;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .footer-copyright {
+            color: rgba(147, 197, 253, 0.7);
+            font-size: 0.875rem;
+        }

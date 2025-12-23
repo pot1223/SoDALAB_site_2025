@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang = "ko">
+    <head>
+        <meta charset = "UTF-8" />
+        <title>publications</title>
+        <link rel="stylesheet" href = "{{url_for('soda.static', filename='home.css')}}"/>
+        <link rel="stylesheet" href = "{{url_for('soda.static', filename='public.css')}}"/>
+
+    </head>
+
+    
+    <body>
+
+      <header id="header">  
+        <div class="innder header_inner">
+          <a href="." class="logo">  
+            <img class = "logo-image" src="{{ url_for('soda.static', filename='images/sodalab_logo_black.png') }}">
+          </a>
+          <nav id="nav"> 
+            <a href="." class="current"> 연구실</a>
+            <a href="{{url_for('soda.prof')}}" class> 교수</a>
+            <a href="{{url_for('soda.people')}}" class="current_2"> 구성원</a>
+            <ul class = "dropdown_2">
+              <a href="{{url_for('soda.people')}}" class="detail_2"> 재학생 </a>
+              <a href="{{url_for('soda.graduate')}}" class="detail_2"> 졸업생 </a>
+            </ul> 
+            <a href="{{url_for('soda.public')}}" class> 연구</a>
+            <a href="{{url_for('soda.gallery')}}" class> 활동사진</a>
+          </nav>
+        </div>
+      </header>
+
+
+
+      <section id="main">
+        <div class="inner">
+          <header class="major" style="padding-bottom:5px">  
+            <h1 style="font-size: 2em; margin: 0 0 0.25em 0;"> 연구</h1>
+          </header>
+
+          <div class="tabs">
+            <label class="tab tab01" onclick="showContent('tab01')">
+               전체 
+            </label>
+            <label class="tab tab02"  onclick="showContent('tab02')">
+              해외저널(SSCI or SCI)
+            </label>
+            <label class="tab tab03" onclick="showContent('tab03')">
+              SCOPUS 및 국내저널(KCI)
+            </label>
+            <label class="tab tab04" onclick="showContent('tab04')">
+              해외학회
+             </label>
+             <label class="tab tab05" onclick="showContent('tab05')">
+              국내학회 
+             </label>
+            <span class="border"></span>
+            <span class="background"></span>
+          </div>
+
+
+
+          {% for aboard_publication in aboard_publications %}
+
+
+          <section data-tab="tab02" class="entry entry-theme" style="display: block;">
+            <span class="publication-content"> 
+              <h4 style="font-size: 1.1em; font-weight: 700; line-height: 1.4; margin:0; padding:0;"> {{ aboard_publication.title }}</h4>
+              <p style="margin:0; padding:0;">
+                {{ aboard_publication.authors }}
+              </p>
+              <br>
+              <p style="margin:0; padding:0;">
+                {{ aboard_publication.reference }}
+              </p>
+            </span>
+          </section>
+
+          {% endfor %}
+
+
+
+
+          {% for domestic_publication in domestic_publications %}
+
+          <section data-tab="tab03" class="entry entry-theme" style="display: block;">
+            <span class="publication-content"> 
+              <h4 style="font-size: 1.1em; font-weight: 700; line-height: 1.4; margin:0; padding:0;"> {{ domestic_publication.title }}</h4>
+              <p style="margin:0; padding:0;">
+                {{ domestic_publication.authors }}
+              </p>
+              <br>
+              <p style="margin:0; padding:0;">
+                {{ domestic_publication.reference }}
+              </p>
+            </span>
+          </section>
+
+          {% endfor %}
+
+
+
+          
+          {% for aboard_conference in aboard_conferences %}
+
+          <section data-tab="tab04" class="entry entry-theme" style="display: block;">
+            <span class="publication-content"> 
+              <h4 style="font-size: 1.1em; font-weight: 700; line-height: 1.4; margin:0; padding:0;"> {{ aboard_conference.title }}</h4>
+              <p style="margin:0; padding:0;">
+                {{ aboard_conference.conference_name }}
+              </p>
+              <br>
+              <p style="margin:0; padding:0;">
+                {{ aboard_conference.date }}
+              </p>
+            </span>
+          </section>
+          {% endfor %}
+
+
+
+
+
+          {% for domestic_conference in domestic_conferences %}
+
+
+          <section data-tab="tab05" class="entry entry-theme" style="display: block;">
+            <span class="publication-content"> 
+              <h4 style="font-size: 1.1em; font-weight: 700; line-height: 1.4; margin:0; padding:0;"> {{domestic_conference.title }}</h4>
+              <p style="margin:0; padding:0;">
+                {{domestic_conference.conference_name}}
+              </p>
+              <br>
+              <p style="margin:0; padding:0;">
+                {{domestic_conference.date}}
+              </p>
+            </span>
+          </section>
+          {% endfor %}
+
+      </section>
+
+
+
+
+
+      <section id = "footer">
+        <div class = "inner">
+          <strong>SoDALAB, 산업경영정보공학과, 경기대학교</strong>
+          <br>
+          <a>5층 506호, 제2공학관, 수원 캠퍼스, 경기대학교</a>
+          <br>
+          <a> (16227) 광교, 수원시, 경기도 154-42, 대한민국 </a>
+          <br>
+          <a> COPYRIGHT ⓒ2025 Graduate School of KGU. SoDALAB. All rights reserved</a>
+        </div>
+      </section>
+
+
+     <script>
+     document.addEventListener("DOMContentLoaded", () => {
+    // 1. 모든 섹션을 숨기고 tab03만 표시 
+       const allSections = document.querySelectorAll('.entry.entry-theme');
+       allSections.forEach(section => {
+        if (section.getAttribute('data-tab') === 'tab03') {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+
+    // 2. 탭 바(Border/Background) 위치 고정 (tab03 위치인 200px로 고정)
+       const border = document.querySelector('.tabs .border');
+       const background = document.querySelector('.tabs .background');
+       if (border && background) {
+        border.style.transform = 'translateX(200px)';
+        background.style.transform = 'translateX(200px)';
+      }
+
+    // 3. 드롭다운 관련 기존 코드는 유지 (필요 시)
+      const nav = document.getElementById("nav");
+      const currentLink_2 = nav?.querySelector(".current_2");
+      const dropdown_2 = nav?.querySelector(".dropdown_2");
+      
+      if (currentLink_2 && dropdown_2) {
+        currentLink_2.addEventListener("click", (e) => {
+            e.preventDefault(); 
+            dropdown_2.style.display = dropdown_2.style.display === "block" ? "none" : "block";
+        });
+        
+        document.addEventListener("click", (e) => {
+            if (!nav.contains(e.target)) {
+                dropdown_2.style.display = "none";
+              }
+            });
+          }
+        });
+   // 기존의 showContent 함수는 더 이상 필요 없으므로 삭제하거나 비워둡니다.
+      function showContent(tabId) {
+      // 아무것도 하지 않음 (탭 클릭 방지)
+      }
+   </script>
+</body>
+</html>

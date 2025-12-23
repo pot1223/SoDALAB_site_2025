@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoDA LAB - Professor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            overflow-x: hidden;
+            background: white;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        /* 로고 */
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-left: -100px;
+        }
+
+        .logo-image {
+            height: 100px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .logo-image {
+            transform: scale(1.02);
+        }
+
+        /* 네비게이션 */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        nav > a {
+            position: relative;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        nav > a:hover,
+        nav > a.active {
+            color: #1e3a8a;
+        }
+
+        /* 밑줄 애니메이션 */
+        nav > a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #1e3a8a, #1e40af);
+            transition: width 0.3s ease;
+        }
+
+        nav > a:hover::after,
+        nav > a.active::after {
+            width: 100%;
+        }
+
+        /* 드롭다운 컨테이너 */
+        .nav-item-with-dropdown {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .chevron-icon {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item-with-dropdown:hover .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 드롭다운 메뉴 */
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 192px;
+            background: white;
+            border: 1px solid #dbeafe;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item-with-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 8px 16px;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        /* 모바일 메뉴 버튼 */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-button svg {
+            width: 24px;
+            height: 24px;
+            color: #1e3a8a;
+        }
+
+        /* 모바일 메뉴 */
+        .mobile-menu {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #dbeafe;
+            padding: 16px;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .mobile-submenu {
+            padding-left: 16px;
+            margin-top: 4px;
+        }
+
+        .mobile-submenu a {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* ========== 섹션 컨테이너 ========== */
+        #professor {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* ========== 헤더 ========== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 44px;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            color: #1e3a8a;
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+            font-size: 1.125rem;
+        }
+
+        /* ========== 프로필 카드 ========== */
+        .profile-card {
+            max-width: 896px;
+            margin: 0 auto;
+            background: linear-gradient(to bottom right, #eff6ff, #ffffff);
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 48px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ========== 프로필 상단 (이미지 + 기본 정보) ========== */
+        .profile-top {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .profile-top {
+                flex-direction: row;
+            }
+        }
+
+        .profile-image-wrapper {
+            flex-shrink: 0;
+        }
+
+        .profile-image {
+            width: 160px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .profile-position {
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .profile-department {
+            color: #6b7280;
+        }
+
+        /* ========== 섹션 디바이더 ========== */
+        .section-divider {
+            border-top: 4px double rgba(30, 58, 138, 0.3);
+            padding-top: 24px;
+            margin-top: 24px;
+        }
+
+        .section-divider:first-of-type {
+            margin-top: 0;
+        }
+
+        /* ========== 섹션 제목 ========== */
+        .subsection-title {
+            color: #1e3a8a;
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subsection-title svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ========== 연구 분야 리스트 ========== */
+        .research-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .research-list li {
+            color: #374151;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        /* ========== 경력 리스트 ========== */
+        .career-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .career-list li {
+            margin-bottom: 12px;
+        }
+
+        .career-date {
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 4px;
+        }
+
+        .career-detail {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        /* ========== 연락처 ========== */
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #374151;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .contact-item svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        a.contact-item:hover {
+            color: #1e3a8a;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: linear-gradient(to bottom right, #111827, #172554, #1e3a8a);
+            color: white;
+            padding: 24px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.3;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .footer-title {
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #93c5fd, #bfdbfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .footer-address {
+            color: #bfdbfe;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .footer-copyright {
+            color: rgba(147, 197, 253, 0.7);
+            font-size: 0.875rem;
+        }
+
+        /* ========== 반응형 ========== */
+        @media (max-width: 768px) {
+            #professor {
+                padding: 40px 0;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .profile-card {
+                padding: 32px 24px;
+            }
+
+            .profile-name {
+                font-size: 1.25rem;
+            }
+
+            .section-divider {
+                padding-top: 16px;
+                margin-top: 16px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .profile-card {
+                padding: 24px 16px;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== HEADER / NAVIGATION ========== -->
+    <header id="header">
+        <div class="header-inner">
+            <a href="#" class="logo" onclick="navigateTo('home'); return false;">
+                <img class="logo-image" src="{{ url_for('soda.static', filename='images/sodalab_logo_black.png') }}" alt="SoDA LAB Logo">
+            </a>
+            
+            <nav id="nav">
+                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        About us
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.intro')}}">Introduction</a>
+                        <a href="{{url_for('soda.contact')}}">Contact</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        People
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.prof')}}">Professor</a>
+                        <a href="{{url_for('soda.people')}}">Members</a>
+                        <a href="{{url_for('soda.graduate')}}">Alumni</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        Research
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                    </div>
+                </div>
+
+                <a href="{{url_for('soda.project')}}">Projects</a>
+                <a href="{{url_for('soda.gallery')}}">News</a>
+            </nav>
+
+            <!-- 모바일 메뉴 버튼 -->
+            <button class="mobile-menu-button" onclick="toggleMobileMenu()">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"/>
+                    <line x1="4" x2="20" y1="6" y2="6"/>
+                    <line x1="4" x2="20" y1="18" y2="18"/>
+                </svg>
+                <svg id="close-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 모바일 메뉴 -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#">Home</a>
+            
+            <a href="#" style="font-weight: 600;">About us</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.intro')}}">Introduction</a>
+                <a href="#">Contact</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">People</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.prof')}}">Professor</a>
+                <a href="{{url_for('soda.people')}}">Members</a>
+                <a href="{{url_for('soda.graduate')}}">Alumni</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">Research</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                <a href="{{url_for('soda.aboard')}}">Aboard</a>
+            </div>
+
+            <a href="{{url_for('soda.project')}}">Projects</a>
+            <a href="#"">News</a>
+        </div>
+    </header>
+
+    <!-- 전체 페이지 래퍼 -->
+    <div class="page-wrapper">
+        <!-- 움직이는 파란 동그라미 배경들 -->
+        <div class="background-decoration">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="blob blob-4"></div>
+            <div class="blob blob-5"></div>
+            <div class="blob blob-6"></div>
+        </div>
+
+    
+    <section id="professor">
+        <div class="container">
+            <!-- 섹션 헤더 -->
+            <div class="section-header">
+                <h2 class="section-title">Professor</h2>
+                <p class="section-subtitle">연구실 지도교수</p>
+            </div>
+
+            <!-- 프로필 카드 -->
+            <div class="profile-card">
+                <!-- 프로필 상단: 이미지 + 기본 정보 -->
+                <div class="profile-top">
+                    <!-- 프로필 이미지 -->
+                    <div class="profile-image-wrapper">
+                        <img 
+                            src="{{ url_for('soda.static', filename='images/people/prof.jpg') }}"
+                            alt="Professor So-Hyun Lee" 
+                            class="profile-image"
+                        >
+                    </div>
+
+                    <!-- 프로필 정보 -->
+                    <div class="profile-info">
+                        <h3 class="profile-name">So-Hyun Lee, Ph.D</h3>
+                        <p class="profile-position">교수 | Professor</p>
+                        <p class="profile-department">Department of Industrial and Management Engineering</p>
+
+                        <!-- 연구 분야 -->
+                        <div class="section-divider">
+                            <h4 class="subsection-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                                </svg>
+                                연구 분야
+                            </h4>
+                            <ul class="research-list">
+                                <li>• Digital Business (Digital gifting, Digital platform, Digital marketing, Online review)</li>
+                                <li>• Data Science (Machine Learning and Deep Learning), Text mining, Behavioral Research</li>
+                                <li>• Generative AI</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 경력 -->
+                <div class="section-divider">
+                    <h4 class="subsection-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                        </svg>
+                        경력
+                    </h4>
+                    <ul class="career-list">
+                        <li>
+                            <div class="career-date">2023/03 – Present</div>
+                            <div class="career-detail">Assistant Professor, Department of Industrial and Management Engineering, Kyonggi University, Suwon, South Korea</div>
+                        </li>
+                        <li>
+                            <div class="career-date">2021/09 – 2023/02</div>
+                            <div class="career-detail">Associate Professor, School of Management, Xi'an Jiaotong University, Xi'an, China</div>
+                        </li>
+                        <li>
+                            <div class="career-date">2018/09 – 2021/07</div>
+                            <div class="career-detail">Research Professor, Graduate School of Information, Yonsei University, Seoul, South Korea</div>
+                        </li>
+                        <li>
+                            <div class="career-date">2017/08 – 2018/08</div>
+                            <div class="career-detail">Post-doctoral Researcher, Kogod School of Business, American University, Washington, D.C., U.S.A.</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 연락처 -->
+                <div class="section-divider">
+                    <h4 class="subsection-title">연락처</h4>
+                    <div class="contact-list">
+                        <a href="mailto:sohyun@kyonggi.ac.kr" class="contact-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                            </svg>
+                            sohyun@kyonggi.ac.kr
+                        </a>
+                        <a href="tel:031-249-9750" class="contact-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            031-249-9750
+                        </a>
+                        <div class="contact-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            경기 수원시 영통구 광교산로 154-42, 제2공학관 518호
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-pattern"></div>
+        <div class="footer-content">
+            <h3 class="footer-title">SoDA LAB</h3>
+            <p class="footer-address">
+                (16227) 경기도 수원시 영통구 광교산로 154-42 경기대학교 제2공학관 5층 506호
+            </p>
+            <p class="footer-copyright">
+                ⓒ 2025 SoDALAB. All rights reserved
+            </p>
+        </div>
+    </footer>
+</body>
+<script>
+    // ========== 헤더 스크롤 효과 ==========
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ========== 모바일 메뉴 토글 ==========
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.toggle('active');
+            
+            if (mobileMenu.classList.contains('active')) {
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            } else {
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.remove('active');
+            menuIcon.style.display = 'block';
+            closeIcon.style.display = 'none';
+        }
+
+        // ========== 페이지 네비게이션 ==========
+        function navigateTo(page) {
+            console.log('Navigating to:', page);
+            // 여기에 실제 페이지 전환 로직 추가
+            // 예: window.location.href = page + '.html';
+            
+            // 메뉴 활성화 상태 변경
+            const allLinks = document.querySelectorAll('nav a, .mobile-menu a');
+            allLinks.forEach(link => link.classList.remove('active'));
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== 슬라이더 기능 ==========
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+        let autoSlideTimer;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentIndex = index;
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetAutoSlide();
+        }
+
+        function previousSlide() {
+            const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+            showSlide(newIndex);
+            resetAutoSlide();
+        }
+
+        function nextSlide() {
+            const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+            showSlide(newIndex);
+            resetAutoSlide();
+        }
+
+        function startAutoSlide() {
+            autoSlideTimer = setInterval(() => {
+                nextSlide();
+            }, 5000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideTimer);
+            startAutoSlide();
+        }
+
+        startAutoSlide();
+
+        // 키보드 네비게이션
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                previousSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        // 터치 스와이프 지원
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const sliderTrack = document.querySelector('.slider-track');
+
+        sliderTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        sliderTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousSlide();
+            }
+        }
+</script>
+</html>

@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoDA LAB - News</title>
+    <link rel="stylesheet" href="{{url_for('soda.static', filename='gallery.css')}}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            overflow-x: hidden;
+            background: white;
+        }
+
+        /* ========== HEADER / NAVIGATION ========== */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        /* 로고 */
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-left: -100px;
+        }
+
+        .logo-image {
+            height: 100px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .logo-image {
+            transform: scale(1.02);
+        }
+
+        /* 네비게이션 */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        nav > a {
+            position: relative;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        nav > a:hover,
+        nav > a.active {
+            color: #1e3a8a;
+        }
+
+        /* 밑줄 애니메이션 */
+        nav > a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #1e3a8a, #1e40af);
+            transition: width 0.3s ease;
+        }
+
+        nav > a:hover::after,
+        nav > a.active::after {
+            width: 100%;
+        }
+
+        /* 드롭다운 컨테이너 */
+        .nav-item-with-dropdown {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .chevron-icon {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item-with-dropdown:hover .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 드롭다운 메뉴 */
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 192px;
+            background: white;
+            border: 1px solid #dbeafe;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item-with-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 8px 16px;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        /* 모바일 메뉴 버튼 */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-button svg {
+            width: 24px;
+            height: 24px;
+            color: #1e3a8a;
+        }
+
+        /* 모바일 메뉴 */
+        .mobile-menu {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #dbeafe;
+            padding: 16px;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .mobile-submenu {
+            padding-left: 16px;
+            margin-top: 4px;
+        }
+
+        .mobile-submenu a {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+
+        /* ========== 섹션 컨테이너 ========== */
+        #news {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* ========== 헤더 ========== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            font-weight: bold;
+            background: linear-gradient(to right, #1e3a8a, #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            color: #6b7280;
+            max-width: 672px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ========== 뉴스 컨테이너 ========== */
+        .news-container {
+            max-width: 896px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .news-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ========== 뉴스 카드 ========== */
+        .news-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .news-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .news-card.hidden {
+            display: none;
+        }
+
+        /* ========== 뉴스 이미지 ========== */
+        .news-image-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+
+        .news-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+            z-index: 10;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ========== 뉴스 정보 ========== */
+        .news-info {
+            padding: 24px;
+        }
+
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1e3a8a;
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+        }
+
+        .news-date svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .news-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #1e3a8a, #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .news-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+        }
+
+        .news-location svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .news-description {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* ========== 네비게이션 버튼 ========== */
+        .nav-button {
+            position: absolute;
+            top: 33.333%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 20;
+        }
+
+        .nav-button:hover {
+            background: white;
+            border-color: #2563eb;
+        }
+
+        .nav-button svg {
+            width: 24px;
+            height: 24px;
+            color: #1e3a8a;
+        }
+
+        .nav-button-prev {
+            left: 16px;
+        }
+
+        .nav-button-next {
+            right: 16px;
+        }
+
+        /* ========== 인디케이터 도트 ========== */
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .dot {
+            height: 8px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            width: 32px;
+            background: linear-gradient(to right, #1e3a8a, #1e40af);
+        }
+
+        .dot.inactive {
+            width: 8px;
+            background: #d1d5db;
+        }
+
+        .dot.inactive:hover {
+            background: #93c5fd;
+        }
+
+        /* ========== 페이드 애니메이션 ========== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .news-card.active {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ========== 반응형 ========== */
+        @media (max-width: 768px) {
+            #news {
+                padding: 40px 0;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .news-info {
+                padding: 20px;
+            }
+
+            .news-title {
+                font-size: 1.25rem;
+            }
+
+            .nav-button {
+                width: 36px;
+                height: 36px;
+            }
+
+            .nav-button svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .news-info {
+                padding: 16px;
+            }
+
+            .news-title {
+                font-size: 1.125rem;
+            }
+
+            .nav-button-prev {
+                left: 8px;
+            }
+
+            .nav-button-next {
+                right: 8px;
+            }
+        }
+
+        /* ========== 배경 래퍼 ========== */
+        .page-wrapper {
+            position: relative;
+            background: linear-gradient(to bottom right, #eff6ff, #dbeafe, #eff6ff);
+            overflow: hidden;
+        }
+
+        /* ========== 움직이는 파란 동그라미 배경 ========== */
+        .background-decoration {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            mix-blend-mode: multiply;
+            filter: blur(64px);
+            opacity: 0.2;
+            animation: blob 7s infinite;
+        }
+
+        .blob-1 {
+            top: 80px;
+            right: 25%;
+            width: 256px;
+            height: 256px;
+            background-color: #bfdbfe;
+        }
+
+        .blob-2 {
+            top: 160px;
+            left: 33.333%;
+            width: 288px;
+            height: 288px;
+            background-color: #93c5fd;
+            animation-delay: 4s;
+        }
+
+        .blob-3 {
+            top: -160px;
+            right: -160px;
+            width: 320px;
+            height: 320px;
+            background-color: #93c5fd;
+        }
+
+        .blob-4 {
+            bottom: -160px;
+            left: -160px;
+            width: 320px;
+            height: 320px;
+            background-color: #60a5fa;
+            animation-delay: 2s;
+        }
+
+        .blob-5 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            background-color: #3b82f6;
+            animation-delay: 4s;
+        }
+
+        .blob-6 {
+            bottom: 25%;
+            right: 33.333%;
+            width: 256px;
+            height: 256px;
+            background-color: #60a5fa;
+            animation-delay: 2s;
+        }
+
+        @keyframes blob {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: linear-gradient(to bottom right, #111827, #172554, #1e3a8a);
+            color: white;
+            padding: 24px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.3;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .footer-title {
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #93c5fd, #bfdbfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .footer-address {
+            color: #bfdbfe;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .footer-copyright {
+            color: rgba(147, 197, 253, 0.7);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+  <!-- ========== HEADER / NAVIGATION ========== -->
+    <header id="header">
+        <div class="header-inner">
+            <a href="#" class="logo" onclick="navigateTo('home'); return false;">
+                <img class="logo-image" src="{{ url_for('soda.static', filename='images/sodalab_logo_black.png') }}" alt="SoDA LAB Logo">
+            </a>
+            
+            <nav id="nav">
+                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        About us
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.intro')}}">Introduction</a>
+                        <a href="{{url_for('soda.contact')}}">Contact</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        People
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.prof')}}">Professor</a>
+                        <a href="{{url_for('soda.people')}}">Members</a>
+                        <a href="{{url_for('soda.graduate')}}">Alumni</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        Research
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                    </div>
+                </div>
+
+                <a href="{{url_for('soda.project')}}">Projects</a>
+                <a href="{{url_for('soda.gallery')}}">News</a>
+            </nav>
+
+            <!-- 모바일 메뉴 버튼 -->
+            <button class="mobile-menu-button" onclick="toggleMobileMenu()">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"/>
+                    <line x1="4" x2="20" y1="6" y2="6"/>
+                    <line x1="4" x2="20" y1="18" y2="18"/>
+                </svg>
+                <svg id="close-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 모바일 메뉴 -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#">Home</a>
+            
+            <a href="#" style="font-weight: 600;">About us</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.intro')}}">Introduction</a>
+                <a href="#">Contact</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">People</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.prof')}}">Professor</a>
+                <a href="{{url_for('soda.people')}}">Members</a>
+                <a href="{{url_for('soda.graduate')}}">Alumni</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">Research</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                <a href="{{url_for('soda.aboard')}}">Aboard</a>
+            </div>
+
+            <a href="{{url_for('soda.project')}}">Projects</a>
+            <a href="#"">News</a>
+        </div>
+    </header>
+
+    <!-- 전체 페이지 래퍼 -->
+    <div class="page-wrapper">
+        <!-- 움직이는 파란 동그라미 배경들 -->
+        <div class="background-decoration">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="blob blob-4"></div>
+            <div class="blob blob-5"></div>
+            <div class="blob blob-6"></div>
+        </div>
+
+    <section id="news">
+        <div class="container">
+            <!-- 섹션 헤더 -->
+            <div class="section-header">
+                <h4 class="section-title">연구실 소식</h4>
+                <p class="section-description">
+                    연구실의 최신 소식과 주요 활동을 확인하세요.
+                </p>
+            </div>
+
+            <!-- 뉴스 컨테이너 -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    {% for activity in activity_photos %}
+                    <div class="swiper-slide">
+                        <div class="entry-theme-photo">
+                            <div class="entry-theme-photo-head">
+                                <span class="entry-theme-photo-title">
+                                    <h2 style="font-size: 1.75em; font-weight: 700; line-height: 1.4; margin:0;">{{ activity.title }}</h2>
+                                </span>
+                                <span class="entry-theme-photo-date">
+                                    <p style="margin:0; color: #888;">{{ activity.date }}</p>
+                                </span>
+                            </div>               
+                            
+                            <div class="photo-wrapper" style="margin: 20px 0;">
+                                <img src="{{ activity.public_image_url }}" class="photo-image" style="width:100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                            </div>
+
+                            <div class="entry-theme-photo-footer" style="padding: 15px; background: #f9f9f9; border-radius: 8px;">
+                                <p style="margin: 0; text-align: center;"><strong>장소:</strong> {{ activity.venue }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+            </div>
+    </section>
+</div>
+<!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-pattern"></div>
+        <div class="footer-content">
+            <h3 class="footer-title">SoDA LAB</h3>
+            <p class="footer-address">
+                (16227) 경기도 수원시 영통구 광교산로 154-42 경기대학교 제2공학관 5층 506호
+            </p>
+            <p class="footer-copyright">
+                ⓒ 2025 SoDALAB. All rights reserved
+            </p>
+        </div>
+    </footer>
+
+    <!-- ========== JavaScript ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+         // ========== 헤더 스크롤 효과 ==========
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ========== 모바일 메뉴 토글 ==========
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.toggle('active');
+            
+            if (mobileMenu.classList.contains('active')) {
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            } else {
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.remove('active');
+            menuIcon.style.display = 'block';
+            closeIcon.style.display = 'none';
+        }
+
+        // ========== 페이지 네비게이션 ==========
+        function navigateTo(page) {
+            console.log('Navigating to:', page);
+            // 여기에 실제 페이지 전환 로직 추가
+            // 예: window.location.href = page + '.html';
+            
+            // 메뉴 활성화 상태 변경
+            const allLinks = document.querySelectorAll('nav a, .mobile-menu a');
+            allLinks.forEach(link => link.classList.remove('active'));
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== 슬라이더 기능 ==========
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+        let autoSlideTimer;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentIndex = index;
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetAutoSlide();
+        }
+
+        function previousSlide() {
+            const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+            showSlide(newIndex);
+            resetAutoSlide();
+        }
+
+        function nextSlide() {
+            const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+            showSlide(newIndex);
+            resetAutoSlide();
+        }
+
+        function startAutoSlide() {
+            autoSlideTimer = setInterval(() => {
+                nextSlide();
+            }, 5000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideTimer);
+            startAutoSlide();
+        }
+
+        startAutoSlide();
+
+        // 키보드 네비게이션
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                previousSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        // 터치 스와이프 지원
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const sliderTrack = document.querySelector('.slider-track');
+
+        sliderTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        sliderTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousSlide();
+            }
+        }
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Swiper 초기화
+            const swiper = new Swiper('.mySwiper', {
+                autoHeight: true,
+                loop: true,
+                spaceBetween: 30,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+
+            // 2. 네비게이션 드롭다운 로직
+            const nav = document.getElementById("nav");
+            const currentLink_2 = nav.querySelector(".current_2");
+            const dropdown_2 = nav.querySelector(".dropdown_2");
+
+            currentLink_2.addEventListener("click", (e) => {
+                e.preventDefault(); 
+                dropdown_2.style.display = dropdown_2.style.display === "block" ? "none" : "block";
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!nav.contains(e.target)) {
+                    dropdown_2.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

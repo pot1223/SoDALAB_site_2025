@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang = "ko">
+    <head>
+        <meta charset = "UTF-8" />
+        <title>intro</title>
+        <link rel="stylesheet" href = "{{url_for('soda.static', filename='home.css')}}"/>
+        <link rel="stylesheet" href = "{{url_for('soda.static', filename='domain.css')}}"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    </head>
+
+    <body>
+
+    <!-- ========== HEADER / NAVIGATION ========== -->
+    <header id="header">
+        <div class="header-inner">
+            <a href="#" class="logo" onclick="navigateTo('home'); return false;">
+                <img class="logo-image" src="{{ url_for('soda.static', filename='images/sodalab_logo_black.png') }}" alt="SoDA LAB Logo">
+            </a>
+            
+            <nav id="nav">
+                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        About us
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.intro')}}">Introduction</a>
+                        <a href="{{url_for('soda.contact')}}">Contact</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        People
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.prof')}}">Professor</a>
+                        <a href="{{url_for('soda.people')}}">Members</a>
+                        <a href="{{url_for('soda.graduate')}}">Alumni</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        Research
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                    </div>
+                </div>
+
+                <a href="{{url_for('soda.project')}}">Projects</a>
+                <a href="{{url_for('soda.gallery')}}">News</a>
+            </nav>
+
+            <!-- 모바일 메뉴 버튼 -->
+            <button class="mobile-menu-button" onclick="toggleMobileMenu()">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"/>
+                    <line x1="4" x2="20" y1="6" y2="6"/>
+                    <line x1="4" x2="20" y1="18" y2="18"/>
+                </svg>
+                <svg id="close-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 모바일 메뉴 -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#">Home</a>
+            
+            <a href="#" style="font-weight: 600;">About us</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.intro')}}">Introduction</a>
+                <a href="#">Contact</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">People</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.prof')}}">Professor</a>
+                <a href="{{url_for('soda.people')}}">Members</a>
+                <a href="{{url_for('soda.graduate')}}">Alumni</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">Research</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                <a href="{{url_for('soda.aboard')}}">Aboard</a>
+            </div>
+
+            <a href="{{url_for('soda.project')}}">Projects</a>
+            <a href="#"">News</a>
+        </div>
+    </header>
+
+    <!-- 전체 페이지 래퍼 -->
+    <div class="page-wrapper">
+        <!-- 움직이는 파란 동그라미 배경들 -->
+        <div class="background-decoration">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="blob blob-4"></div>
+            <div class="blob blob-5"></div>
+            <div class="blob blob-6"></div>
+        </div>
+
+
+        <section id="main"> 
+        <div class="inner">
+            <header class="major"> 
+                <h1 style="font-size: 35px; margin:0"> 세부 연구 분야</h1>
+            </header>
+        
+            <section > 
+                
+                <div class="entry" style= "width:50%; float: left; min-height: 11.25rem;  text-align: center">
+                    <span class="image-left"> 
+                        <img class="profile-photo" src="{{ url_for('soda.static', filename='images/soda_nlp.png') }}"> 
+                    </span>
+                    <h4 style="font-size: 1.1em;  font-weight: 700; line-height: 1.4; margin: 0; padding: 0;"> 자연어 처리</h4>
+                    <div style="padding-top:10px;     font-size: 14px"> 거대언어모델 </div>
+                    <div style="    font-size: 14px"> 주요인 분석 </div>
+                    <div style="    font-size: 14px">  감정 분석 </div>
+                </div>
+
+                <div class="entry" style= "width:50%;  min-height: 11.25rem; text-align: center">
+                    <span class="image-left"> 
+                        <img class="profile-photo" src="{{ url_for('soda.static', filename='images/soda_recommender.png') }}"> 
+                    </span>
+                    <h4 style="font-size: 1.1em;  font-weight: 700; line-height: 1.4; margin: 0; padding: 0;">추천 시스템</h4>
+                    <div style="padding-top:10px; font-size: 14px"> 콘텐츠 기반 필터링 </div>
+                    <div style="font-size:0.95em; font-size: 14px"> 협업 필터링 </div>
+                    <div style="font-size:0.95em; font-size: 14px"> 그래픽 모델 </div>
+                </div>
+
+                <div class="entry" style= "width:50%; float: left; min-height: 11.25rem; text-align: center">
+                    <span class="image-left"> 
+                        <img class="profile-photo" src="{{ url_for('soda.static', filename='images/soda_forecast.png') }}"> 
+                    </span>
+                    <h4 style="font-size: 1.1em;  font-weight: 700; line-height: 1.4; margin: 0; padding: 0;">  예측 </h4>
+                    <div style="padding-top:10px; font-size: 14px"> 머신러닝/딥러닝 </div>
+                    <div style="font-size:0.95em; font-size: 14px"> 시계열 예측  </div>
+                    <div style="font-size:0.95em; font-size: 14px"> 이상 탐지  </div>
+                </div>        
+                
+                <div class="entry" style= "width:50%; min-height: 11.25rem; text-align: center">
+                    <span class="image-left"> 
+                        <img class="profile-photo" src="{{ url_for('soda.static', filename='images/soda_pattern.png') }}"> 
+                    </span>
+                    <h4 style="font-size: 1.1em;  font-weight: 700; line-height: 1.4; margin: 0; padding: 0;"> 분석 </h4>
+                    <div style="padding-top:10px; font-size: 14px"> 패턴 인식 </div>
+                    <div style="font-size:0.95em; font-size: 14px"> 인과 추론  </div>
+                    <div style="font-size:0.95em; font-size: 14px"> 근사 추론  </div>
+                </div>            
+
+
+
+            </section>
+        </div>
+        </section>
+
+
+        <section id = "footer">
+            <div class = "inner">
+              <strong>SoDALAB, 산업경영정보공학과, 경기대학교</strong>
+              <br>
+              <a>5층 506호, 제2공학관, 수원 캠퍼스, 경기대학교</a>
+              <br>
+              <a> (16227) 광교, 수원시, 경기도 154-42, 대한민국 </a>
+              <br>
+              <a> COPYRIGHT ⓒ2025 Graduate School of KGU. SoDALAB. All rights reserved</a>
+            </div>
+          </section>
+
+     </body>
+
+
+    <script>
+
+      document.addEventListener("DOMContentLoaded", () => {
+          const nav = document.getElementById("nav");
+          const currentLink_2 = nav.querySelector(".current_2");
+          const dropdown_2 = nav.querySelector(".dropdown_2");
+
+
+          currentLink_2.addEventListener("click", (e) => {
+            e.preventDefault(); 
+            dropdown_2.style.display = dropdown_2.style.display === "block" ? "none" : "block";
+            });
+
+          
+          document.addEventListener("click", (e) => {
+            if (!nav.contains(e.target)) {
+              dropdown_2.style.display = "none";
+            }
+          });
+
+        });
+
+    </script>
+</html>
