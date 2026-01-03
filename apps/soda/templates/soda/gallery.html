@@ -65,6 +65,7 @@
             </button>
         </div>
 
+        <!-- 모바일 메뉴 -->
         <div class="mobile-menu" id="mobile-menu">
             <a href="{{url_for('soda.home')}}">Home</a>
             
@@ -84,11 +85,13 @@
             <a href="#" style="font-weight: 600;">Research</a>
             <div class="mobile-submenu">
                 <a href="{{url_for('soda.domestic')}}">Domestic</a>
-                <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                <a href="{{url_for('soda.aboard')}}">International</a>
+                <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                <a href="{{url_for('soda.inter')}}">International Conference</a>
             </div>
 
             <a href="{{url_for('soda.project')}}">Projects</a>
-            <a href="{{url_for('soda.gallery')}}" class="active">News</a>
+            <a href="{{url_for('soda.gallery')}}">News</a>
         </div>
     </header>
 
