@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('soda.static', filename='intro.css')}}"/>
+    <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
     <title>SoDA LAB - Introduction</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
             </a>
             
             <nav id="nav">
-                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                <a href="{{url_for('soda.home')}}" >Home</a>
                 
                 <div class="nav-item-with-dropdown">
                     <div class="nav-link">
@@ -53,7 +54,9 @@
                     </div>
                     <div class="dropdown-menu">
                         <a href="{{url_for('soda.domestic')}}">Domestic</a>
-                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
                     </div>
                 </div>
 

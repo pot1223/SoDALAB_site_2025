@@ -1,4 +1,4 @@
-        * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -8,13 +8,19 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             overflow-x: hidden;
             background: white;
+            
+            /* [수정 1] 푸터 하단 고정을 위한 Flex 설정 추가 */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* ========== 배경 ========== */
-        .projects-wrapper {
-            min-height: 100vh;
-            background: linear-gradient(to bottom right, #eff6ff, #ffffff, #eff6ff);
+        /* [수정 2] HTML 클래스명(.page-wrapper)과 일치시키고 flex:1 추가 */
+        .page-wrapper {
+            flex: 1; /* 남은 공간을 모두 차지하여 푸터를 아래로 밀어냄 */
             position: relative;
+            background: linear-gradient(to bottom right, #eff6ff, #ffffff, #eff6ff);
+            /* min-height: 100vh; -> body에서 처리하므로 삭제 */
         }
 
         /* 움직이는 파란 동그라미 배경 */
@@ -279,6 +285,7 @@
             z-index: 10;
             max-width: 1280px;
             margin: 0 auto;
+            /* 헤더 높이 등을 고려해 상단 패딩 확보 */
             padding: 128px 16px 80px;
         }
 
@@ -371,50 +378,4 @@
             .logo-card {
                 padding: 20px;
             }
-        }
-
-        /* ========== FOOTER ========== */
-        footer {
-            background: linear-gradient(to bottom right, #111827, #172554, #1e3a8a);
-            color: white;
-            padding: 24px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.3;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
-        }
-
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 16px;
-            position: relative;
-            z-index: 10;
-            text-align: center;
-        }
-
-        .footer-title {
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #93c5fd, #bfdbfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .footer-address {
-            color: #bfdbfe;
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        .footer-copyright {
-            color: rgba(147, 197, 253, 0.7);
-            font-size: 0.875rem;
         }

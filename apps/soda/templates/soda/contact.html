@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('soda.static', filename='contact.css')}}"/>
+    <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
     <title>SoDA LAB - Contact</title>
 
 </head>
@@ -16,7 +17,7 @@
             </a>
             
             <nav id="nav">
-                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                <a href="{{url_for('soda.home')}}" >Home</a>
                 
                 <div class="nav-item-with-dropdown">
                     <div class="nav-link">
@@ -54,7 +55,9 @@
                     </div>
                     <div class="dropdown-menu">
                         <a href="{{url_for('soda.domestic')}}">Domestic</a>
-                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
                     </div>
                 </div>
 
@@ -157,8 +160,7 @@
                             </div>
                             <div class="contact-info">
                                 <h3 class="contact-title">연구실</h3>
-                                <p class="contact-content-text">경기대학교 산업경영공학과
-SoDALAB 데이터 분석 연구실</p>
+                                <p class="contact-content-text">경기대학교 산업경영공학과 SoDALAB 데이터 분석 연구실</p>
                             </div>
                         </div>
                     </div>
@@ -174,8 +176,7 @@ SoDALAB 데이터 분석 연구실</p>
                             </div>
                             <div class="contact-info">
                                 <h3 class="contact-title">주소</h3>
-                                <p class="contact-content-text">경기도 수원시 영통구 광교산로 154-42
-경기대학교</p>
+                                <p class="contact-content-text">경기도 수원시 영통구 광교산로 154-42 경기대학교</p>
                             </div>
                         </div>
                     </div>

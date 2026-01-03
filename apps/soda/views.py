@@ -3,7 +3,7 @@ from apps.app import db
 from apps.models import (
     aboard_publication, domestic_publication,
     aboard_conference, domestic_conference, member_spec,
-    present_member, past_member, home_content, activity_photo
+    present_member, past_member, home_content, activity_photo, home_photo, project_photo
 )
 
 from flask import request, redirect
@@ -22,31 +22,51 @@ soda = Blueprint(
 
 @soda.route("/")
 def index():
-    # id 기준 오름차순 정렬 추가
+    home_photos_db = home_photo.query.order_by(home_photo.id).all()
     home_contents = home_content.query.order_by(home_content.id).all()
-    return render_template("soda/home.html", home_contents=home_contents)
+    home_photos_with_urls = []
+    for photo in home_photos_db:
+        # 2. 이미지 파일명이 실제 존재하는지 체크 (방어 코드)
+        if photo.home_image:
+            res = supabase.storage.from_('home-images').get_public_url(photo.home_image)
+            # 만약 res가 객체로 온다면 .public_url 을 붙여야 할 수도 있음 (버전에 따라 다름)
+            photo.public_image_url = res 
+        else:
+            photo.public_image_url = url_for('soda.static', filename='images/default.png') # 기본 이미지
+            
+        home_photos_with_urls.append(photo)
 
+    return render_template("soda/home.html", home_contents = home_contents, home_photos = home_photos_with_urls )
 
 
 @soda.route("/people")
 def people():
-    # id 기준 오름차순 정렬 추가
-    member_specs = member_spec.query.order_by(member_spec.id).all()
+    # 1. 데이터 가져오기
+    # spec은 최신순(date 내림차순)이나 중요도 순으로 정렬하는 것이 좋다면 order_by를 조정하세요.
+    all_specs = member_spec.query.order_by(member_spec.date.desc()).all() 
     present_members = present_member.query.order_by(present_member.id).all()
 
-    present_members_with_urls = []
+    present_members_processed = []
+
     for member in present_members:
-        # DB에 저장된 파일 경로로 공개 URL을 가져옴
+        # 2. 이미지 URL 처리 (기존 코드)
         res = supabase.storage.from_('profile-images').get_public_url(member.profile_image)
-        member.public_image_url = res # member 객체에 새 속성으로 URL 추가
-        present_members_with_urls.append(member)
+        member.public_image_url = res
+
+        # 3. [핵심] 현재 멤버(member.member)와 이름이 일치하는 스펙만 찾아서 리스트로 저장
+        # member_spec 테이블의 'member' 컬럼이 학생 이름이라고 가정했습니다.
+        my_specs = [spec for spec in all_specs if spec.member == member.member]
+        
+        # 멤버 객체에 'specs_list'라는 이름으로 리스트를 심어줍니다.
+        member.specs_list = my_specs
+        
+        present_members_processed.append(member)
 
     return render_template(
         "soda/people.html",
-        member_specs=member_specs,
-        present_members=present_members_with_urls # URL이 추가된 리스트 전달
+        present_members=present_members_processed
+        # member_specs는 이제 따로 넘길 필요가 없습니다. present_members 안에 들어갔으니까요.
     )
-
 
 #@soda.route("/gallery")
 #def gallery():
@@ -107,11 +127,38 @@ def contact():
 
 @soda.route("/home")
 def home():
-    return render_template("soda/home.html")
+    home_photos_db = home_photo.query.order_by(home_photo.id).all()
+    home_contents = home_content.query.order_by(home_content.id).all()
+    home_photos_with_urls = []
+    for photo in home_photos_db:
+        # 2. 이미지 파일명이 실제 존재하는지 체크 (방어 코드)
+        if photo.home_image:
+            res = supabase.storage.from_('home-images').get_public_url(photo.home_image)
+            # 만약 res가 객체로 온다면 .public_url 을 붙여야 할 수도 있음 (버전에 따라 다름)
+            photo.public_image_url = res 
+        else:
+            photo.public_image_url = url_for('soda.static', filename='images/default.png') # 기본 이미지
+            
+        home_photos_with_urls.append(photo)
+
+    return render_template("soda/home.html", home_contents = home_contents, home_photos = home_photos_with_urls )
 
 @soda.route("/project")
 def project():
-    return render_template("soda/project.html")
+    projects = project_photo.query.order_by(project_photo.id).all()
+
+    # --- 👇 이 부분이 추가/수정되었습니다 ---
+    projects_with_urls = []
+    for project in projects:
+        # DB에 저장된 파일 경로로 Supabase에서 공개 URL을 가져옵니다.
+        # 'profile-images'는 Supabase에 만드신 버킷(폴더) 이름입니다.
+        res = supabase.storage.from_('project-images').get_public_url(project.project_image)
+
+        # member 객체에 public_image_url이라는 새 속성으로 URL을 추가합니다.
+        project.project_image_url = res
+        projects_with_urls.append(project)
+        
+    return render_template("soda/project.html", project_photos=projects_with_urls )
 
 @soda.route("/domestic")
 def domestic():
@@ -123,26 +170,39 @@ def aboard():
     aboard_publications = aboard_publication.query.order_by(aboard_publication.id).all()
     return render_template("soda/aboard.html", aboard_publications = aboard_publications)
 
+@soda.route("/confer")
+def confer():
+    domestic_conferences = domestic_conference.query.order_by(domestic_conference.id).all()
+    return render_template("soda/confer.html",  domestic_conferences =  domestic_conferences)
+
+@soda.route("/international")
+def international():
+    aboard_conferences = aboard_conference.query.order_by(aboard_conference.id).all()
+    return render_template("soda/inter.html", aboard_conferences = aboard_conferences)
+
+
 @soda.route("/graduate")
 def graduate():
-    # id 기준 오름차순 정렬 추가
+    # 1. 모든 스펙 가져오기 (날짜 내림차순 등 정렬 추천)
+    all_specs = member_spec.query.order_by(member_spec.date.desc()).all()
+    # 2. 졸업생 가져오기
     past_members = past_member.query.order_by(past_member.id).all()
 
-    # --- 👇 이 부분이 추가/수정되었습니다 ---
-    past_members_with_urls = []
+    past_members_processed = []
     for member in past_members:
-        # DB에 저장된 파일 경로로 Supabase에서 공개 URL을 가져옵니다.
-        # 'profile-images'는 Supabase에 만드신 버킷(폴더) 이름입니다.
+        # --- 이미지 URL 처리 (기존 코드) ---
         res = supabase.storage.from_('profile-images').get_public_url(member.profile_image)
-
-        # member 객체에 public_image_url이라는 새 속성으로 URL을 추가합니다.
         member.public_image_url = res
-        past_members_with_urls.append(member)
-    # --- 여기까지 ---
+        
+        # --- [추가된 부분] 스펙 데이터 매칭 로직 ---
+        # 졸업생 이름(member.member)과 일치하는 스펙만 필터링
+        my_specs = [spec for spec in all_specs if spec.member == member.member]
+        member.specs_list = my_specs # 리스트 저장
+        
+        past_members_processed.append(member)
 
-    # URL이 추가된 리스트를 템플릿으로 전달합니다.
-    return render_template("soda/graduate.html", past_members=past_members_with_urls)
-
+    # URL과 스펙 리스트가 모두 포함된 객체 전달
+    return render_template("soda/graduate.html", past_members=past_members_processed)
 
 
 @soda.route("/public")

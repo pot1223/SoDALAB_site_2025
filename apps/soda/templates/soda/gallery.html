@@ -6,6 +6,7 @@
     <title>SoDA LAB - News</title>
     <link rel="stylesheet" href="{{url_for('soda.static', filename='gallery.css')}}"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
 </head>
 <body>
 
@@ -48,7 +49,9 @@
                     </div>
                     <div class="dropdown-menu">
                         <a href="{{url_for('soda.domestic')}}">Domestic</a>
-                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
                     </div>
                 </div>
 
@@ -109,21 +112,19 @@
                 </div>
 
                 <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
+                <div class="swiper-wrapper">
                         {% for activity in activity_photos %}
                         <div class="swiper-slide">
                             <div class="entry-theme-photo">
-                                <div class="entry-theme-photo-head">
-                                    <h2 class="entry-theme-photo-title">{{ activity.title }}</h2>
-                                    <p style="margin:0; color: #888;">{{ activity.date }}</p>
-                                </div>               
-                                
-                                <div class="photo-wrapper" style="margin: 20px 0;">
+                                <div class="photo-wrapper">
                                     <img src="{{ activity.public_image_url }}" class="photo-image" alt="{{ activity.title }}">
                                 </div>
 
-                                <div class="entry-theme-photo-footer" style="padding: 15px; background: #f9f9f9; border-radius: 8px; text-align: center;">
-                                    <p style="margin: 0;"><strong>장소:</strong> {{ activity.venue }}</p>
+                                <div class="entry-theme-photo-footer">
+                                    <p class="footer-info">
+                                        <span class="footer-titles">{{ activity.title }}</span>
+                                        <span class="footer-date">{{ activity.date }}</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>

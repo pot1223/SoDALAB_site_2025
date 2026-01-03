@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('soda.static', filename='home.css')}}"/>
+    <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
     <title>SoDA LAB @ KGU - Data Analytics Laboratory</title>
 </head>
 
@@ -54,7 +55,9 @@
                     </div>
                     <div class="dropdown-menu">
                         <a href="{{url_for('soda.domestic')}}">Domestic</a>
-                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
                     </div>
                 </div>
 
@@ -135,30 +138,14 @@
                         <div class="slider-wrapper">
                             <div class="slider-container">
                                 <div class="slider-track">
-
-                                    <div class="slide" data-index="0">
-                                        <img src="{{ url_for('soda.static', filename='images/photo.jpg') }}" alt="2025 한국IT서비스학회 춘계학술대회" class="slide-image">
+                                    {% for photo in home_photos %}
+                                    <div class="slide" data-index="{{photo.id}}">
+                                        <img src="{{ photo.public_image_url }}" alt="{{photo.title }}" class="slide-image">
                                         <div class="slide-title">
-                                            <p>2025 한국IT서비스학회 춘계학술대회</p>
+                                            <p>"{{photo.title }}"</p>
                                         </div>
                                     </div>
-
-                                    <div class="slide" data-index="1">
-                                        <img src="{{ url_for('soda.static', filename='images/landing_1.jpg') }}" alt="2025 SoDALAB 세미나" class="slide-image">
-                                        <div class="slide-title">
-                                            <p>2025 SoDALAB 세미나</p>
-                                        </div>
-                                    </div>
-                                  
-                                    <div class="slide" data-index="2">
-                                        <img src="{{ url_for('soda.static', filename='images/2025_한국서비스학회_추계학술대회.jpg') }}" alt="2025 한국IT서비스학회 추계학술대회" class="slide-image">
-                                        <div class="slide-title">
-                                            <p>2025 한국IT서비스학회 추계학술대회</p>
-                                        </div>
-                                    </div>
-
-
-
+                                    {% endfor %}
                                 </div>
 
                                 <!-- 네비게이션 버튼 -->
@@ -177,9 +164,9 @@
                             <!-- 도트 인디케이터 -->
                             <div class="dots-container">
                                 <button class="dot active" onclick="goToSlide(0)" aria-label="Go to slide 1"></button>
-                                <button class="dot" onclick="goToSlide(1)" aria-label="Go to slide 2"></button>
-                                <button class="dot" onclick="goToSlide(2)" aria-label="Go to slide 3"></button>
-
+                                {% for num in range(home_photos|length) %}
+                                <button class="dot" onclick="goToSlide({{ num + 1 }})" aria-label="Go to slide {{ num + 2 }}"></button>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

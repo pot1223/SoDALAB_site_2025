@@ -1,84 +1,4 @@
-#main {
-    padding: 6em 0 2em 0;
-    z-index: 5000;
-    position:relative;
-}
-
-
-section .inner {
-    max-width: 65em;
-    width: calc(100% - 6em);
-    margin: 0 auto;
-}
-
-.entry {
-    display: inline-block;
-    width: 100%;
-    padding-top: 2em;
-    text-align: center;
-    padding-bottom: 3em;
-
-}
-
-
-.image-left {
-    float: left;
-    margin: 0 3em  0;
-    top: 0.25em;
-}
-
-
-
-.profile-photo {
-    width: 203px;
-    height: 276px;
-    object-fit: cover;
-    
-}
-
-.gap{
-    width:50px;
-}
-
-
-html, body {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 메인 콘텐츠는 자동으로 늘어나게 */
-#main-content {
-  flex: 1;
-}
-
-/* footer는 항상 맨 밑으로 */
-#footer {
-  margin-top: auto;
-  text-align: left;
-}
-
-/* 반응형 대응 */
-@media screen and (max-width: 768px) {
-  #banner h1 {
-    font-size: 1.2em;
-  }
-  #banner span {
-    font-size: 0.8em;
-  }
-  .card-item {
-    height: auto;
-    padding: 1em;
-  }
-  #footer {
-    font-size: 0.7em;
-    line-height: 1.4;
-  }
-}
-
-
-
-        * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -88,8 +8,23 @@ html, body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             overflow-x: hidden;
             background: white;
+            
+            /* [핵심] Sticky Footer를 위한 Flex 설정 */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
+        /* [추가] 콘텐츠 래퍼: 남은 공간을 차지하여 푸터를 바닥으로 밈 */
+        .page-wrapper {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(to bottom right, #eff6ff, #ffffff, #eff6ff);
+            z-index: 1;
+            padding-top: 80px; /* 헤더 높이만큼 여백 확보 */
+        }
+
+        /* ========== HEADER / NAVIGATION ========== */
         header {
             position: fixed;
             top: 0;
@@ -284,10 +219,10 @@ html, body {
             color: #6b7280;
         }
 
-        /* ========== 섹션 컨테이너 ========== */
+        /* ========== 섹션 컨테이너 (page-wrapper 내부) ========== */
         #professor {
             padding: 80px 0;
-            background: white;
+            background: transparent; /* 배경은 page-wrapper가 담당 */
         }
 
         .container {
@@ -460,54 +395,25 @@ html, body {
             color: #1e3a8a;
         }
 
-        /* ========== FOOTER ========== */
-        footer {
+        /* ========== FOOTER (스타일은 유지하되 위치는 flex로 제어됨) ========== */
+        /* 만약 footer.css를 따로 쓰지 않고 여기에 포함시킨다면 아래 내용을 사용하세요. */
+        /* footer {
             background: linear-gradient(to bottom right, #111827, #172554, #1e3a8a);
             color: white;
             padding: 24px 0;
             position: relative;
             overflow: hidden;
-        }
-
-        .footer-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.3;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
-        }
-
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 16px;
-            position: relative;
-            z-index: 10;
-            text-align: center;
-        }
-
-        .footer-title {
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #93c5fd, #bfdbfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .footer-address {
-            color: #bfdbfe;
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        .footer-copyright {
-            color: rgba(147, 197, 253, 0.7);
-            font-size: 0.875rem;
-        }
-
+            margin-top: auto; 
+        } 
+        ... (나머지 푸터 스타일)
+        */
+       
         /* ========== 반응형 ========== */
         @media (max-width: 768px) {
+            .page-wrapper {
+                padding-top: 60px; /* 모바일 헤더 높이에 맞춤 (필요시 조정) */
+            }
+
             #professor {
                 padding: 40px 0;
             }

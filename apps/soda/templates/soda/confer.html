@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoDA LAB - Members</title>
-    <link rel="stylesheet" href="{{url_for('soda.static', filename='graduate.css')}}"/>
+    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="{{url_for('soda.static', filename='aboard.css')}}"/>
     <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
+    <title>SoDA LAB - Domestic Conference</title>
 </head>
 <body>
-  <!-- ========== HEADER / NAVIGATION ========== -->
+    <!-- ========== HEADER / NAVIGATION ========== -->
     <header id="header">
         <div class="header-inner">
             <a href="#" class="logo" onclick="navigateTo('home'); return false;">
@@ -119,90 +120,41 @@
         </div>
 
 
-        <section id="members">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Alumni</h2>
-                <p class="section-subtitle">연구실 졸업생</p>
+        <!-- 컨텐츠 영역 -->
+<div class="aboard-content">
+            <div class="header">
+                <div class="badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                    <span>Aboard Research</span>
+                </div>
+                <h1 class="page-title">국내 컨퍼런스</h1>
+                <p class="page-description">
+                    SoDA LAB의 국내 컨퍼런스 성과를 소개합니다.
+                </p>
             </div>
 
-            <div class="members-grid">
-                {% for past_member in past_members %}
-                <div class="member-card">
-                    <div class="member-profile-side">
-                        <div class="member-image-wrapper">
-                            <img src="{{ past_member.public_image_url }}" alt="{{ past_member.member }}" class="member-image">
-                        </div>
-                        
-                        <div class="profile-text-content">
-                            <div class="member-name-wrapper">
-                                <h3 class="member-name">
-                                    <span class="member-name-ko">{{ past_member.member }}</span>
-                                </h3>
-                            </div>
-
-                            <div class="degree-info">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                                <div class="degree-detail">
-                                    <span class="degree-ko">{{ past_member.degree }}</span>
-                                </div>
-                            </div>
-                            <div class="major-info">{{ past_member.department }}</div>
-
-                            <a href="mailto:{{ past_member.email }}" class="email-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                                <span>{{ past_member.email }}</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="member-specs-side">
-                        <div class="research-section">
-                            <div class="research-header">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M17 21v-8H7v8"/></svg>
-                                <span>Affiliation</span>
-                            </div>
-                            <div class="research-tags">
-                                {% if past_member.affiliation %}
-                                    {% for tag in past_member.affiliation.split(',') %}
-                                    <span class="research-tag">{{ tag.strip() }}</span>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="specs-divider"></div>
-
-                        <div class="specs-section">
-                            <div class="specs-header">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                <span>Publications & Performance</span>
-                            </div>
-                            
-                            <ul class="specs-list">
-                                {% if past_member.specs_list %}
-                                    {% for spec in past_member.specs_list %}
-                                    <li class="spec-item">
-                                        <strong>{{ spec.title }}</strong>
-                                        <br>
-                                        <span style="font-size: 0.85em; color: #6b7280;">
-                                            - {{ spec.organi }} | {{ spec.date }}
-                                            {% if spec.price %} ({{ spec.price }}) {% endif %}
-                                        </span>
-                                    </li>
-                                    {% endfor %}
-                                {% else %}
-                                    <li class="spec-item" style="color: #9ca3af; list-style: none;">등록된 이력이 없습니다.</li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+            <div class="paper-box">
+                <ul class="apa-list">
+                    {% for pub in domestic_conferences %}
+                    <li class="apa-item">
+                        <span class="pub-text">
+                            <span class="pub-title">{{ pub.title }}</span>.
+                            <span class="pub-journal" style="font-style: italic;">{{ pub.conference_name }}</span>.
+                            <span class="pub-journal" style="font-style: italic;">{{ pub.date }}</span>.
+                        </span>
+                    </li>
+                    {% else %}
+                    <li class="apa-item">등록된 논문이 없습니다.</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
-        </section>
     </div>
+</div>
+<!-- ========== FOOTER ========== -->
     <footer>
         <div class="footer-pattern"></div>
         <div class="footer-content">
@@ -217,6 +169,15 @@
     </footer>
 </body>
 <script>
+
+    window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
 
         document.addEventListener("DOMContentLoaded", () => {
           const nav = document.getElementById("nav");

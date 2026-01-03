@@ -24,14 +24,14 @@ body {
 /* =========================================
    2. LAYOUT (레이아웃 구조)
    ========================================= */
-/* 메인 콘텐츠 래퍼 (푸터를 하단으로 밀기 위함) */
+/* 메인 콘텐츠 래퍼 */
 .page-wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;
     position: relative;
     background: linear-gradient(to bottom right, #eff6ff, #dbeafe, #eff6ff);
-    z-index: 1; /* 배경 위로 컨텐츠 올림 */
+    z-index: 1;
 }
 
 .container {
@@ -41,7 +41,7 @@ body {
     padding: 0 16px;
 }
 
-/* 갤러리/메인 특정 섹션 스타일 (기존 코드 상단부 통합) */
+/* 메인 섹션 스타일 */
 #main {
     padding: 6em 0 2em 0;
     position: relative;
@@ -49,7 +49,7 @@ body {
 }
 
 section .inner {
-    max-width: 1280px; /* em 단위 대신 픽셀/퍼센트 통일 */
+    max-width: 1280px;
     width: 90%;
     margin: 0 auto;
 }
@@ -87,7 +87,6 @@ header.scrolled {
 .logo {
     display: flex;
     align-items: center;
-    /* margin-left: -100px; -> 과도한 음수 마진 제거하거나 필요시 조정 */
 }
 
 .logo-image {
@@ -210,6 +209,7 @@ nav > a.active::after {
     color: #1e3a8a;
 }
 
+/* 모바일 메뉴 */
 .mobile-menu {
     display: none;
     background: rgba(255, 255, 255, 0.95);
@@ -249,7 +249,7 @@ nav > a.active::after {
 }
 
 /* =========================================
-   4. GALLERY COMPONENTS (갤러리 요소)
+   4. GALLERY COMPONENTS (사진 크기 축소 버전)
    ========================================= */
 .entry {
     display: inline-block;
@@ -257,50 +257,100 @@ nav > a.active::after {
 }
 
 .entry-theme-photo {
-    max-width: 800px; /* em 대신 픽셀 사용 권장 또는 반응형 처리 */
+    /* 전체 컨테이너 너비도 살짝 줄여서 오밀조밀하게 */
+    max-width: 700px; 
     width: 100%;
     display: block;
     margin: 0 auto;
     padding: 2em 0;
+    text-align: center; /* 내부 요소 중앙 정렬 */
 }
 
-.entry-theme-photo-head {
-    display: block;
-    padding-bottom: 1em;
-    text-align: center;
-}
-
-.entry-theme-photo-title {
-    display: inline-block;
-    padding-bottom: 1em;
-    font-size: 1.2rem;
-    font-weight: bold;
+/* 사진 래퍼 */
+.photo-wrapper {
+    margin: 0 0 15px 0; /* 사진과 아래 설명 사이 간격 줄임 */
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .photo-image {
     display: block;
-    margin: 0 auto;
-    max-width: 100%;
+    width: auto;      /* 가로를 꽉 채우지 않고 비율에 맞게 */
+    max-width: 100%;  /* 화면 넘어가지 않게 제한 */
+    
+    /* [핵심] 높이를 400px로 제한 (기존 550px -> 400px) */
     height: auto;
-    max-height: 500px;
+    max-height: 400px; 
+    
     object-fit: contain;
-    border-radius: 8px; /* 모서리 둥글게 (선택사항) */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* 그림자 추가 (선택사항) */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* 수정된 부분: 반응형 Swiper */
+/* 하단 정보 박스 스타일 (슬림 버전 유지) */
+.entry-theme-photo-footer {
+    display: inline-block; /* 내용만큼만 너비 차지 */
+    padding: 10px 24px;
+    background: #f8fafc;
+    border-radius: 50px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    margin-top: 5px;
+}
+
+/* 하단 텍스트 스타일 */
+.footer-info {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    
+    font-size: 0.9rem;    /* 글자 크기 적당히 작게 */
+    color: #475569;
+    font-weight: 400;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+}
+
+.footer-titles {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.footer-date {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    position: relative;
+    padding-left: 12px;
+}
+
+.footer-date::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 55%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 10px;
+    background-color: #cbd5e1;
+}
+
+/* Swiper 컨테이너 */
 .swiper {
     width: 100%;
-    max-width: 1000px; /* 최대 너비만 제한 */
+    max-width: 900px;
     margin: 0 auto;
+    padding-bottom: 40px;
 }
-
 /* =========================================
    5. NEWS SECTION COMPONENTS
    ========================================= */
 #news {
     padding: 80px 0;
-    background: transparent; /* 배경 래퍼 색상 사용 */
+    background: transparent;
     position: relative;
     z-index: 5;
 }
@@ -326,17 +376,9 @@ nav > a.active::after {
     line-height: 1.6;
 }
 
-.news-container {
-    max-width: 896px;
-    margin: 0 auto;
-    position: relative;
-}
-
-.news-wrapper {
-    position: relative;
-    overflow: hidden;
-}
-
+/* 뉴스 카드 등 나머지 뉴스 스타일은 유지 */
+.news-container { max-width: 896px; margin: 0 auto; position: relative; }
+.news-wrapper { position: relative; overflow: hidden; }
 .news-card {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(8px);
@@ -345,55 +387,16 @@ nav > a.active::after {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
-
-.news-card:hover {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
-.news-card.hidden {
-    display: none;
-}
-
-.news-image-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-}
-
-.news-image-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
-    z-index: 10;
-}
-
-.news-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.news-info {
-    padding: 24px;
-}
-
-.news-date, .news-location {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.875rem;
-    margin-bottom: 8px;
-}
-
+.news-card:hover { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+.news-card.hidden { display: none; }
+.news-image-wrapper { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; }
+.news-image-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent); z-index: 10; }
+.news-image { width: 100%; height: 100%; object-fit: cover; }
+.news-info { padding: 24px; }
+.news-date, .news-location { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; margin-bottom: 8px; }
 .news-date { color: #1e3a8a; }
 .news-location { color: #6b7280; margin-bottom: 12px; }
-
-.news-date svg, .news-location svg {
-    width: 16px;
-    height: 16px;
-}
-
+.news-date svg, .news-location svg { width: 16px; height: 16px; }
 .news-title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -404,192 +407,67 @@ nav > a.active::after {
     margin-bottom: 12px;
     line-height: 1.4;
 }
-
-.news-description {
-    color: #6b7280;
-    line-height: 1.6;
-}
-
-/* 네비게이션 버튼 & 도트 */
+.news-description { color: #6b7280; line-height: 1.6; }
 .nav-button {
-    position: absolute;
-    top: 33.333%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #93c5fd;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 20;
+    position: absolute; top: 33.333%; transform: translateY(-50%);
+    width: 40px; height: 40px; background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #93c5fd; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s ease; z-index: 20;
 }
-
-.nav-button:hover {
-    background: white;
-    border-color: #2563eb;
-}
-
-.nav-button svg {
-    width: 24px;
-    height: 24px;
-    color: #1e3a8a;
-}
-
+.nav-button:hover { background: white; border-color: #2563eb; }
+.nav-button svg { width: 24px; height: 24px; color: #1e3a8a; }
 .nav-button-prev { left: 16px; }
 .nav-button-next { right: 16px; }
-
-.dots-container {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
-}
-
-.dot {
-    height: 8px;
-    border-radius: 9999px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.dot.active {
-    width: 32px;
-    background: linear-gradient(to right, #1e3a8a, #1e40af);
-}
-
-.dot.inactive {
-    width: 8px;
-    background: #d1d5db;
-}
-
+.dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
+.dot { height: 8px; border-radius: 9999px; transition: all 0.3s ease; cursor: pointer; }
+.dot.active { width: 32px; background: linear-gradient(to right, #1e3a8a, #1e40af); }
+.dot.inactive { width: 8px; background: #d1d5db; }
 .dot.inactive:hover { background: #93c5fd; }
 
 /* =========================================
-   6. BACKGROUND DECORATION (배경 애니메이션)
+   6. BACKGROUND DECORATION
    ========================================= */
-.background-decoration {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.blob {
-    position: absolute;
-    border-radius: 50%;
-    mix-blend-mode: multiply;
-    filter: blur(64px);
-    opacity: 0.2;
-    animation: blob 7s infinite;
-}
-
+.background-decoration { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.blob { position: absolute; border-radius: 50%; mix-blend-mode: multiply; filter: blur(64px); opacity: 0.2; animation: blob 7s infinite; }
 .blob-1 { top: 80px; right: 25%; width: 256px; height: 256px; background-color: #bfdbfe; }
-.blob-2 { top: 160px; left: 33.333%; width: 288px; height: 288px; background-color: #93c5fd; animation-delay: 4s; }
-.blob-3 { top: -160px; right: -160px; width: 320px; height: 320px; background-color: #93c5fd; }
-.blob-4 { bottom: -160px; left: -160px; width: 320px; height: 320px; background-color: #60a5fa; animation-delay: 2s; }
-.blob-5 { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 320px; height: 320px; background-color: #3b82f6; animation-delay: 4s; }
-.blob-6 { bottom: 25%; right: 33.333%; width: 256px; height: 256px; background-color: #60a5fa; animation-delay: 2s; }
+.blob-2 { top: 160px; left: 33.333%; width: 288px; height: 288px}
 
-@keyframes blob {
-    0% { transform: translate(0px, 0px) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-    100% { transform: translate(0px, 0px) scale(1); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateX(100px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-.news-card.active {
-    animation: fadeIn 0.3s ease;
-}
-
-/* =========================================
-   7. FOOTER
-   ========================================= */
-footer {
+ footer {
     background: linear-gradient(to bottom right, #111827, #172554, #1e3a8a);
-    color: white;
-    padding: 24px 0;
-    position: relative;
-    overflow: hidden;
-    margin-top: auto; /* 상단 컨텐츠가 짧아도 푸터는 맨 아래로 */
+    border-top: 1px solid #f3f4f6; /* 아주 연한 구분선 */
+    padding: 24px 0; /* 상하 여백 축소 */
+    margin-top: auto;
     z-index: 10;
+    text-align: center;
 }
 
-.footer-pattern {
-    position: absolute;
-    inset: 0;
-    opacity: 0.3;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
-}
+.footer-pattern { display: none; } /* 패턴 제거 */
 
 .footer-content {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 16px;
-    position: relative;
-    z-index: 10;
-    text-align: center;
 }
 
 .footer-title {
     margin-bottom: 8px;
-    background: linear-gradient(to right, #93c5fd, #bfdbfe);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.1rem; /* 제목 크기 대폭 축소 */
+    font-weight: 700;
+    color: #1e3a8a; /* 단색 블루 */
+    background: none;
+    -webkit-text-fill-color: initial;
 }
 
 .footer-address {
-    color: #bfdbfe;
-    margin-bottom: 8px;
-    line-height: 1.6;
+    color: #6b7280; /* 회색 */
+    margin-bottom: 4px;
+    line-height: 1.5;
+    font-size: 0.8rem; /* 주소 폰트 축소 */
 }
 
 .footer-copyright {
-    color: rgba(147, 197, 253, 0.7);
-    font-size: 0.875rem;
-}
-
-/* =========================================
-   8. MEDIA QUERIES (반응형 대응)
-   ========================================= */
-@media (max-width: 768px) {
-    /* 모바일 헤더/네비게이션 처리 */
-    nav { display: none; } /* 데스크탑 메뉴 숨김 */
-    .mobile-menu-button { display: block; } /* 햄버거 버튼 표시 */
-    
-    .header-inner { height: 40px; }
-    .logo-image { height: 40px; }
-    
-    /* 뉴스 섹션 */
-    #news { padding: 40px 0; }
-    .section-header { margin-bottom: 40px; }
-    .section-title { font-size: 2rem; }
-    .news-info { padding: 20px; }
-    .news-title { font-size: 1.25rem; }
-    .nav-button { width: 36px; height: 36px; }
-    .nav-button svg { width: 20px; height: 20px; }
-    
-    /* 갤러리 섹션 */
-    #main { padding: 2em 0; }
-    .photo-image { max-height: 200px; }
-}
-
-@media (max-width: 640px) {
-    .section-title { font-size: 1.75rem; }
-    .news-info { padding: 16px; }
-    .news-title { font-size: 1.125rem; }
-    .nav-button-prev { left: 8px; }
-    .nav-button-next { right: 8px; }
+    color: #9ca3af; /* 연한 회색 */
+    font-size: 0.75rem; /* 카피라이트 폰트 축소 */
+    margin-top: 12px;
 }

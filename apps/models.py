@@ -33,6 +33,8 @@ class aboard_conference(db.Model):
     date = db.Column(db.String(500), nullable = False)
 
 
+
+
 class member_spec(db.Model):
      __tablename__ = "memberspec"
      id = db.Column(db.Integer, primary_key = True)
@@ -53,7 +55,6 @@ class present_member(db.Model):
     department = db.Column(db.String(500), nullable = False)
     email = db.Column(db.String(500), nullable = False)
     interest_part = db.Column(db.String(500), nullable = False)
-
 
 class past_member(db.Model):
     __tablename__ = "past_member"
@@ -79,3 +80,15 @@ class activity_photo(db.Model):
     date = db.Column(db.String(500), nullable = True)
     activity_image = db.Column(db.String(255), nullable=True, default='default.jpg')
     venue = db.Column(db.String(500), nullable = True)
+    
+class home_photo(db.Model):
+    __tablename__ = "home_photo"    
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(500), nullable = True)
+    home_image = db.Column(db.String(255), nullable=True, default='default.jpg')
+    
+class project_photo(db.Model):
+    __tablename__ = "project_photo"    
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(500), nullable = True)
+    project_image = db.Column(db.String(255), nullable=True, default='default.jpg')

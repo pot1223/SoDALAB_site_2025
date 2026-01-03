@@ -1,4 +1,4 @@
-        * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -8,8 +8,15 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             overflow-x: hidden;
             background: white;
+            
+            /* [핵심] Sticky Footer를 위한 Flex 설정 */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-         header {
+
+        /* ========== HEADER / NAVIGATION ========== */
+        header {
             position: fixed;
             top: 0;
             width: 100%;
@@ -203,9 +210,10 @@
             color: #6b7280;
         }
 
-        /* ========== 배경 ========== */
+        /* ========== 배경 및 래퍼 ========== */
         .contact-wrapper {
-            min-height: 100vh;
+            /* [핵심] Sticky Footer 적용 (기존 min-height: 100vh 대체) */
+            flex: 1; 
             background: linear-gradient(to bottom right, #eff6ff, #ffffff, #eff6ff);
             position: relative;
         }
@@ -227,52 +235,22 @@
             animation: blob 7s infinite;
         }
 
-        .blob-1 {
-            top: 80px;
-            right: 25%;
-            width: 256px;
-            height: 256px;
-            background-color: #bfdbfe;
-        }
-
-        .blob-2 {
-            top: 160px;
-            left: 33.333%;
-            width: 288px;
-            height: 288px;
-            background-color: #93c5fd;
-            animation-delay: 4s;
-        }
-
-        .blob-3 {
-            bottom: 25%;
-            right: 33.333%;
-            width: 256px;
-            height: 256px;
-            background-color: #60a5fa;
-            animation-delay: 2s;
-        }
+        .blob-1 { top: 80px; right: 25%; width: 256px; height: 256px; background-color: #bfdbfe; }
+        .blob-2 { top: 160px; left: 33.333%; width: 288px; height: 288px; background-color: #93c5fd; animation-delay: 4s; }
+        .blob-3 { bottom: 25%; right: 33.333%; width: 256px; height: 256px; background-color: #60a5fa; animation-delay: 2s; }
 
         @keyframes blob {
-            0% {
-                transform: translate(0px, 0px) scale(1);
-            }
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-            100% {
-                transform: translate(0px, 0px) scale(1);
-            }
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
         }
 
         /* ========== 컨텐츠 영역 ========== */
         .contact-content {
             position: relative;
             z-index: 10;
-            padding: 128px 16px 80px;
+            padding: 128px 16px 80px; /* 헤더 높이 고려됨 */
         }
 
         .container {
@@ -282,8 +260,8 @@
 
         /* ========== 헤더 ========== */
         .header {
-
             margin-bottom: 64px;
+            text-align: center; /* 중앙 정렬 명시 */
         }
 
         .badge {
@@ -430,52 +408,6 @@
             text-align: center;
         }
 
-        /* ========== FOOTER ========== */
-        footer {
-            background: linear-gradient(to bottom right, #111827, #172554, #1e3a8a);
-            color: white;
-            padding: 24px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.3;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=');
-        }
-
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 16px;
-            position: relative;
-            z-index: 10;
-            text-align: center;
-        }
-
-        .footer-title {
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #93c5fd, #bfdbfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .footer-address {
-            color: #bfdbfe;
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        .footer-copyright {
-            color: rgba(147, 197, 253, 0.7);
-            font-size: 0.875rem;
-        }
-
         /* ========== 반응형 ========== */
         @media (max-width: 768px) {
             .contact-content {
@@ -523,4 +455,3 @@
                 text-align: center;
             }
         }
-    

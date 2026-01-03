@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('soda.static', filename='prof.css')}}"/>
+    <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
     <title>SoDA LAB - Professor</title>
 
 </head>
+
 <body>
     <!-- ========== HEADER / NAVIGATION ========== -->
     <header id="header">
@@ -16,7 +18,7 @@
             </a>
             
             <nav id="nav">
-                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                <a href="{{url_for('soda.home')}}" >Home</a>
                 
                 <div class="nav-item-with-dropdown">
                     <div class="nav-link">
@@ -32,7 +34,7 @@
                 </div>
 
                 <div class="nav-item-with-dropdown">
-                    <div class="nav-link">
+                    <div class="nav-link" >
                         People
                         <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="m6 9 6 6 6-6"/>
@@ -54,7 +56,9 @@
                     </div>
                     <div class="dropdown-menu">
                         <a href="{{url_for('soda.domestic')}}">Domestic</a>
-                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
                     </div>
                 </div>
 
@@ -102,8 +106,7 @@
             <a href="{{url_for('soda.project')}}">Projects</a>
             <a href="#"">News</a>
         </div>
-    </header>
-
+    </header>  
     <!-- 전체 페이지 래퍼 -->
     <div class="page-wrapper">
         <!-- 움직이는 파란 동그라미 배경들 -->
@@ -117,7 +120,7 @@
         </div>
 
     
-    <section id="professor">
+        <section id="professor">
         <div class="container">
             <!-- 섹션 헤더 -->
             <div class="section-header">
@@ -132,7 +135,7 @@
                     <!-- 프로필 이미지 -->
                     <div class="profile-image-wrapper">
                         <img 
-                            src="{{ url_for('soda.static', filename='images/people/prof.jpg') }}"
+                            src="{{ url_for('soda.static', filename='images/prof.png') }}"
                             alt="Professor So-Hyun Lee" 
                             class="profile-image"
                         >
@@ -219,7 +222,8 @@
                 </div>
             </div>
         </div>
-    </section>
+        </section>
+    </div>
     <footer>
         <div class="footer-pattern"></div>
         <div class="footer-content">

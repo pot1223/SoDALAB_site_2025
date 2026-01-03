@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('soda.static', filename='project.css')}}"/>
+    <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
     <title>SoDA LAB - Projects</title>
 
 </head>
@@ -16,7 +17,7 @@
             </a>
             
             <nav id="nav">
-                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                <a href="{{url_for('soda.home')}}">Home</a>
                 
                 <div class="nav-item-with-dropdown">
                     <div class="nav-link">
@@ -54,11 +55,13 @@
                     </div>
                     <div class="dropdown-menu">
                         <a href="{{url_for('soda.domestic')}}">Domestic</a>
-                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
                     </div>
                 </div>
 
-                <a href="{{url_for('soda.project')}}">Projects</a>
+                <a href="{{url_for('soda.project')}} " class="active">Projects</a>
                 <a href="{{url_for('soda.gallery')}}">News</a>
             </nav>
 
@@ -136,25 +139,12 @@
 
             <!-- 협력 기업 로고 그리드 -->
             <div class="logos-grid">
-                <!-- 여신티켓 -->
+                
+                {% for project in project_photos %}
                 <div class="logo-card">
-                    <img src="{{ url_for('soda.static', filename='images/project-yeosinticket.png') }}" alt="여신티켓">
+                    <img src="{{ project.project_image_url }}" alt="{{project.title}}">
                 </div>
-
-                <!-- STELLAS -->
-                <div class="logo-card">
-                    <img src="{{ url_for('soda.static', filename='images/project-stella.png') }}" alt="STELLA&">
-                </div>
-
-                <!-- MediBang Paint -->
-                <div class="logo-card">
-                    <img src="{{ url_for('soda.static', filename='images/project-Medibang.png') }}" alt="MediBang Paint">
-                </div>
-
-                <!-- 한국기술교육대학교 -->
-                <div class="logo-card">
-                    <img src="{{ url_for('soda.static', filename='images/project-koreatech.png') }}" alt="한국기술교육대학교">
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

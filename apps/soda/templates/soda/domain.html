@@ -5,6 +5,7 @@
         <title>intro</title>
         <link rel="stylesheet" href = "{{url_for('soda.static', filename='home.css')}}"/>
         <link rel="stylesheet" href = "{{url_for('soda.static', filename='domain.css')}}"/>
+        <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
     </head>
@@ -19,7 +20,7 @@
             </a>
             
             <nav id="nav">
-                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                <a href="{{url_for('soda.home')}}" >Home</a>
                 
                 <div class="nav-item-with-dropdown">
                     <div class="nav-link">
@@ -57,7 +58,9 @@
                     </div>
                     <div class="dropdown-menu">
                         <a href="{{url_for('soda.domestic')}}">Domestic</a>
-                        <a href="{{url_for('soda.aboard')}}">Aboard</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
                     </div>
                 </div>
 
