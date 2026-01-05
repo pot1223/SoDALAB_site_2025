@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="menu.css">
     <link rel="stylesheet" href="{{url_for('soda.static', filename='aboard.css')}}"/>
     <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
-    <title>SoDA LAB - International Conference</title>
+    <title>SoDA LAB - Awards</title>
 </head>
 <body>
     <!-- ========== HEADER / NAVIGATION ========== -->
@@ -106,8 +106,9 @@
             </div>
 
             <a href="{{url_for('soda.project')}}">Projects</a>
-            <a href="{{url_for('soda.award')}}">Awards</a>
+            <a href="{{url_for('soda.award')}}" class="active">Awards</a>
             <a href="{{url_for('soda.gallery')}}">News</a>
+        </div>
         </div>
     </header>
 
@@ -134,24 +135,24 @@
                     </svg>
                     <span>Aboard Research</span>
                 </div>
-                <h1 class="page-title">해외 컨퍼런스</h1>
+                <h1 class="page-title">수상실적</h1>
                 <p class="page-description">
-                    SoDA LAB의 해외 컨퍼런스 성과를 소개합니다.
+                    SoDA LAB의 수상실적을 소개합니다.
                 </p>
             </div>
 
             <div class="paper-box">
                 <ul class="apa-list">
-                    {% for pub in aboard_conferences %}
+                    {% for award in awards %}
                     <li class="apa-item">
                         <span class="pub-text">
-                            <span class="pub-title">{{ pub.title }}</span>.
-                            <span class="pub-journal" style="font-style: italic;">{{ pub.conference_name }}</span>
-                            <span class="pub-journal" style="font-style: italic;">{{ pub.date }}</span>
+                            <span class="pub-title">{{ award.title }}</span>.
+                            <span class="pub-journal" style="font-style: italic;">{{ award.rank }}</span>.
+                            <span class="pub-journal" style="font-style: italic;">{{ award.date }}</span>.
                         </span>
                     </li>
                     {% else %}
-                    <li class="apa-item">등록된 논문이 없습니다.</li>
+                    <li class="apa-item">등록된 실적이 없습니다.</li>
                     {% endfor %}
                 </ul>
             </div>

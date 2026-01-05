@@ -2,9 +2,9 @@ from flask import Blueprint, render_template
 from apps.app import db
 from apps.models import (
     aboard_publication, domestic_publication,
-    aboard_conference, domestic_conference, member_spec,
-    present_member, past_member, home_content, activity_photo, home_photo, project_photo
-)
+    aboard_conference, domestic_conference, member_spec, 
+    present_member, past_member, home_content, activity_photo, home_photo, project_photo, award_db, project_data  
+) 
 
 from flask import request, redirect
 from flask import  url_for
@@ -125,6 +125,11 @@ def prof():
 def contact():
     return render_template("soda/contact.html")
 
+@soda.route("/award")
+def award():
+    awards = award_db.query.order_by(award_db.id).all()
+    return render_template("soda/award.html", awards= awards)
+
 @soda.route("/home")
 def home():
     home_photos_db = home_photo.query.order_by(home_photo.id).all()
@@ -145,6 +150,7 @@ def home():
 
 @soda.route("/project")
 def project():
+    project_data_list = project_data.query.order_by(project_data.id).all()
     projects = project_photo.query.order_by(project_photo.id).all()
 
     # --- 👇 이 부분이 추가/수정되었습니다 ---
@@ -158,7 +164,7 @@ def project():
         project.project_image_url = res
         projects_with_urls.append(project)
         
-    return render_template("soda/project.html", project_photos=projects_with_urls )
+    return render_template("soda/project.html", project_photos=projects_with_urls , project_data= project_data_list)
 
 @soda.route("/domestic")
 def domestic():

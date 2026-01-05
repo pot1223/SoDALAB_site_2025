@@ -22,7 +22,69 @@
             background: linear-gradient(to bottom right, #eff6ff, #ffffff, #eff6ff);
             /* min-height: 100vh; -> body에서 처리하므로 삭제 */
         }
+        .page-description {
+            color: #6b7280;
+            max-width: 768px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+/* ========== 논문 목록 (하나의 큰 박스 스타일) ========== */
+        .paper-box {
+            background: white;
+            border: 1px solid #dbeafe;
+            border-radius: 16px;
+            padding: 40px; /* 내부 여백 넉넉하게 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            max-width: 1000px; /* 중앙 정렬 */
+            margin: 0 auto;
+        }
 
+        .apa-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .apa-item {
+            position: relative;
+            padding-left: 24px; /* 내어쓰기 공간 확보 */
+            text-indent: -24px; /* 첫 줄 제외 들여쓰기 (Hanging Indent) */
+            margin-bottom: 20px; /* 항목 간 간격 */
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #374151;
+            word-break: keep-all; /* 단어 단위 줄바꿈 */
+        }
+
+        /* 항목 앞 불릿 포인트 (선택사항) */
+        .apa-item::before {
+            content: '•';
+            color: #3b82f6; /* 파란색 불릿 */
+            font-weight: bold;
+            display: inline-block;
+            width: 24px;
+            text-indent: 0;
+            text-align: center;
+        }
+
+        /* 텍스트 스타일링 */
+        .pub-authors {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .pub-title {
+            color: #374151;
+        }
+
+        .pub-journal {
+            color: #6b7280;
+        }
+
+        /* 마지막 항목 마진 제거 */
+        .apa-item:last-child {
+            margin-bottom: 0;
+        }
         /* 움직이는 파란 동그라미 배경 */
         .background-decoration {
             position: absolute;
@@ -379,6 +441,16 @@
                 padding: 20px;
             }
         }
+
+        .page-title {
+            font-size: 2.0rem;
+            color: #1e3a8a;
+            margin-bottom: 24px;
+            font-weight: bold;
+        }
+
+
+
 
 
 /* ========== 반응형 (모바일) ========== */

@@ -32,7 +32,19 @@ class aboard_conference(db.Model):
     conference_name = db.Column(db.String(500), nullable = False)
     date = db.Column(db.String(500), nullable = False)
 
+class award_db(db.Model):
+    __tablename__ = "award_db"
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(500), nullable = False)
+    rank = db.Column(db.String(500), nullable = False)
+    date = db.Column(db.String(500), nullable = False)
 
+class project_data(db.Model):
+    __tablename__ = "project_data"
+    id = db.Column(db.Integer, primary_key = True)
+    center = db.Column(db.String(500), nullable = False)
+    title = db.Column(db.String(500), nullable = False)
+    date = db.Column(db.String(500), nullable = False)
 
 
 class member_spec(db.Model):

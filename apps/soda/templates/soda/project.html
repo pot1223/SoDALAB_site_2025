@@ -12,7 +12,7 @@
    <!-- ========== HEADER / NAVIGATION ========== -->
     <header id="header">
         <div class="header-inner">
-            <a href="#" class="logo" onclick="navigateTo('home'); return false;">
+            <a href="{{url_for('soda.home')}}" class="logo" onclick="navigateTo('home'); return false;">
                 <img class="logo-image" src="{{ url_for('soda.static', filename='images/sodalab_logo_black.png') }}" alt="SoDA LAB Logo">
             </a>
             
@@ -62,6 +62,7 @@
                 </div>
 
                 <a href="{{url_for('soda.project')}} " class="active">Projects</a>
+                <a href="{{url_for('soda.award')}}">Awards</a>
                 <a href="{{url_for('soda.gallery')}}">News</a>
             </nav>
 
@@ -105,6 +106,7 @@
             </div>
 
             <a href="{{url_for('soda.project')}}">Projects</a>
+            <a href="{{url_for('soda.award')}}">Awards</a>
             <a href="{{url_for('soda.gallery')}}">News</a>
         </div>
     </header>
@@ -137,7 +139,30 @@
                     </svg>
                     <span>Our Projects</span>
                 </div>
+                <h1 class="page-title">프로젝트</h1>
+                <p class="page-description">
+                    SoDA LAB이 수행하고 있거나 수행한 프로젝트를 소개합니다.
+                </p>
             </div>
+
+            <div class="paper-box">
+                <ul class="apa-list">
+                    {% for pj_data in project_data %}
+                    <li class="apa-item">
+                        <span class="pub-text">
+                            <span class="pub-authors">{{ pj_data.center }}</span>.
+                            <span class="pub-title">{{ pj_data.title }}</span>.
+                            <span class="pub-journal" style="font-style: italic;">{{ pj_data.date }}</span>.
+                        </span>
+                    </li>
+                    {% else %}
+                    <li class="apa-item">등록된 프로젝트가 없습니다.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+                
+
 
             <!-- 협력 기업 로고 그리드 -->
             <div class="logos-grid">
