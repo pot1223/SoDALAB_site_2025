@@ -43,7 +43,6 @@ class project_data(db.Model):
     __tablename__ = "project_data"
     id = db.Column(db.Integer, primary_key = True)
     center = db.Column(db.String(500), nullable = False)
-    title = db.Column(db.String(500), nullable = False)
     date = db.Column(db.String(500), nullable = False)
 
 
