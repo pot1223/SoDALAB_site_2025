@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('soda.static', filename='home.css')}}"/>
+    <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
+    <title>SoDA LAB @ KGU - Data Analytics Laboratory</title>
+</head>
+
+<body>
+    <!-- ========== HEADER / NAVIGATION ========== -->
+    <header id="header">
+        <div class="header-inner">
+            <a href="{{url_for('soda.home')}}" class="logo" onclick="navigateTo('home'); return false;">
+                <img class="logo-image" src="{{ url_for('soda.static', filename='images/sodalab_logo_black.png') }}" alt="SoDA LAB Logo">
+            </a>
+            
+            <nav id="nav">
+                <a href="{{url_for('soda.home')}}" class="active">Home</a>
+                
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        About us
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.intro')}}">Introduction</a>
+                        <a href="{{url_for('soda.contact')}}">Contact</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        People
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.prof')}}">Professor</a>
+                        <a href="{{url_for('soda.people')}}">Members</a>
+                        <a href="{{url_for('soda.graduate')}}">Alumni</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        Research
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
+                    </div>
+                </div>
+
+                <a href="{{url_for('soda.project')}}">Projects</a>
+                <a href="{{url_for('soda.award')}}">Awards</a>
+                <a href="{{url_for('soda.gallery')}}">News</a>
+            </nav>
+
+            <!-- 모바일 메뉴 버튼 -->
+            <button class="mobile-menu-button" onclick="toggleMobileMenu()">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"/>
+                    <line x1="4" x2="20" y1="6" y2="6"/>
+                    <line x1="4" x2="20" y1="18" y2="18"/>
+                </svg>
+                <svg id="close-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 모바일 메뉴 -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="{{url_for('soda.home')}}">Home</a>
+            
+            <a href="#" style="font-weight: 600;">About us</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.intro')}}">Introduction</a>
+                <a href="{{url_for('soda.contact')}}">Contact</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">People</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.prof')}}">Professor</a>
+                <a href="{{url_for('soda.people')}}">Members</a>
+                <a href="{{url_for('soda.graduate')}}">Alumni</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">Research</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                <a href="{{url_for('soda.aboard')}}">International</a>
+                <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                <a href="{{url_for('soda.international')}}">International Conference</a>
+            </div>
+
+            <a href="{{url_for('soda.project')}}">Projects</a>
+            <a href="{{url_for('soda.award')}}">Awards</a>
+            <a href="{{url_for('soda.gallery')}}">News</a>
+        </div>
+    </header>
+
+    <!-- 전체 페이지 래퍼 -->
+    <div class="page-wrapper">
+        <!-- 움직이는 파란 동그라미 배경들 -->
+        <div class="background-decoration">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="blob blob-4"></div>
+            <div class="blob blob-5"></div>
+            <div class="blob blob-6"></div>
+        </div>
+
+        <!-- 실제 컨텐츠 -->
+        <div class="content">
+            <!-- ========== HERO SECTION ========== -->
+            <section id="home">
+                <div class="container">
+                    <div class="text-center">
+                        <!-- 타이틀 섹션 -->
+                        <div class="main-title">
+                            SoDA LAB @ KGU
+                        </div>
+                        
+                        <h1 class="subtitle">
+                            Data Analytics Laboratory
+                        </h1>
+
+                        <!-- 뉴스 슬라이더 -->
+                        <div class="slider-wrapper">
+                            <div class="slider-container">
+                                <div class="slider-track">
+                                    {% for photo in home_photos %}
+                                    <div class="slide" data-index="{{photo.id}}">
+                                        <img src="{{ photo.public_image_url }}" alt="{{photo.title }}" class="slide-image">
+                                        <div class="slide-title">
+                                            <p>"{{photo.title }}"</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- 네비게이션 버튼 -->
+                                <button class="nav-button prev" onclick="previousSlide()" aria-label="Previous slide">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m15 18-6-6 6-6"/>
+                                    </svg>
+                                </button>
+                                <button class="nav-button next" onclick="nextSlide()" aria-label="Next slide">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m9 18 6-6-6-6"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- 도트 인디케이터 -->
+                            <div class="dots-container">
+                                <button class="dot active" onclick="goToSlide(0)" aria-label="Go to slide 1"></button>
+                                {% for num in range(home_photos|length) %}
+                                <button class="dot" onclick="goToSlide({{ num + 1 }})" aria-label="Go to slide {{ num + 2 }}"></button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== RESEARCH AREAS SECTION ========== -->
+            <section id="research-areas">
+                <div class="section-header">
+                    <h2 class="section-title">Research Areas</h2>
+                    <p class="section-description">
+                        데이터와 기술이 변화시키는 디지털 사회에서의 비즈니스와 사회적 현상을 연구합니다
+                    </p>
+                </div>
+
+                <div class="research-grid">
+                    <!-- Research Card 1: NLP -->
+                    <div class="research-card">
+                        <div class="research-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="research-title">Natural Language Processing</h3>
+                        <p class="research-description">자연어 처리</p>
+                        <p class="research-detail">거대언어모델, 주요인 분석,
+감정분석 등 텍스트 데이터 처리 및
+언어 이해 기술 연구</p>
+                    </div>
+
+                    <!-- Research Card 2: Recommendation -->
+                    <div class="research-card">
+                        <div class="research-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="6"/>
+                                <circle cx="12" cy="12" r="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="research-title">Recommendation Systems</h3>
+                        <p class="research-description">추천시스템</p>
+                        <p class="research-detail">콘텐츠 기반 필터링, 협업 필터링,
+그래프 모델을 활용한
+개인화 추천 알고리즘 개발</p>
+                    </div>
+
+                    <!-- Research Card 3: Prediction -->
+                    <div class="research-card">
+                        <div class="research-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                                <polyline points="16 7 22 7 22 13"/>
+                            </svg>
+                        </div>
+                        <h3 class="research-title">Prediction</h3>
+                        <p class="research-description">예측</p>
+                        <p class="research-detail">머신러닝/딥러닝 기반
+시계열 예측, 이상탐지 및
+미래 트렌드 예측 모델 연구</p>
+                    </div>
+
+                    <!-- Research Card 4: Analytics -->
+                    <div class="research-card">
+                        <div class="research-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" x2="18" y1="20" y2="10"/>
+                                <line x1="12" x2="12" y1="20" y2="4"/>
+                                <line x1="6" x2="6" y1="20" y2="14"/>
+                            </svg>
+                        </div>
+                        <h3 class="research-title">Analytics</h3>
+                        <p class="research-description">분석</p>
+                        <p class="research-detail">패턴 인식, 인과추론, 근사추론을
+통한 데이터 기반 인사이트 도출 및
+의사결정 지원</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="footer-pattern"></div>
+        <div class="footer-content">
+            <h3 class="footer-title">SoDA LAB</h3>
+            <p class="footer-address">
+                (16227) 경기도 수원시 영통구 광교산로 154-42 경기대학교 제2공학관 5층 506호
+            </p>
+            <p class="footer-copyright">
+                ⓒ 2025 SoDALAB. All rights reserved
+            </p>
+        </div>
+    </footer>
+
+    <!-- ========== JavaScript ========== -->
+    <script>
+        // ========== 헤더 스크롤 효과 ==========
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ========== 모바일 메뉴 토글 ==========
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.toggle('active');
+            
+            if (mobileMenu.classList.contains('active')) {
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            } else {
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.remove('active');
+            menuIcon.style.display = 'block';
+            closeIcon.style.display = 'none';
+        }
+
+        // ========== 페이지 네비게이션 ==========
+        function navigateTo(page) {
+            console.log('Navigating to:', page);
+            // 여기에 실제 페이지 전환 로직 추가
+            // 예: window.location.href = page + '.html';
+            
+            // 메뉴 활성화 상태 변경
+            const allLinks = document.querySelectorAll('nav a, .mobile-menu a');
+            allLinks.forEach(link => link.classList.remove('active'));
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== 슬라이더 기능 ==========
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+        let autoSlideTimer;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentIndex = index;
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetAutoSlide();
+        }
+
+        function previousSlide() {
+            const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+            showSlide(newIndex);
+            resetAutoSlide();
+        }
+
+        function nextSlide() {
+            const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+            showSlide(newIndex);
+            resetAutoSlide();
+        }
+
+        function startAutoSlide() {
+            autoSlideTimer = setInterval(() => {
+                nextSlide();
+            }, 5000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideTimer);
+            startAutoSlide();
+        }
+
+        startAutoSlide();
+
+        // 키보드 네비게이션
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                previousSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        // 터치 스와이프 지원
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const sliderTrack = document.querySelector('.slider-track');
+
+        sliderTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        sliderTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousSlide();
+            }
+        }
+    </script>
+</body>
+</html>

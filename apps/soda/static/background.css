@@ -1,0 +1,126 @@
+ /* ========== 배경 래퍼 ========== */
+        .page-wrapper {
+            position: relative;
+            background: linear-gradient(to bottom right, #eff6ff, #dbeafe, #eff6ff);
+            overflow: hidden;
+        }
+
+        /* ========== 움직이는 파란 동그라미 배경 ========== */
+        .background-decoration {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            mix-blend-mode: multiply;
+            filter: blur(64px);
+            opacity: 0.2;
+            animation: blob 7s infinite;
+        }
+
+        .blob-1 {
+            top: 80px;
+            right: 25%;
+            width: 256px;
+            height: 256px;
+            background-color: #bfdbfe;
+        }
+
+        .blob-2 {
+            top: 160px;
+            left: 33.333%;
+            width: 288px;
+            height: 288px;
+            background-color: #93c5fd;
+            animation-delay: 4s;
+        }
+
+        .blob-3 {
+            top: -160px;
+            right: -160px;
+            width: 320px;
+            height: 320px;
+            background-color: #93c5fd;
+        }
+
+        .blob-4 {
+            bottom: -160px;
+            left: -160px;
+            width: 320px;
+            height: 320px;
+            background-color: #60a5fa;
+            animation-delay: 2s;
+        }
+
+        .blob-5 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            background-color: #3b82f6;
+            animation-delay: 4s;
+        }
+
+        .blob-6 {
+            bottom: 25%;
+            right: 33.333%;
+            width: 256px;
+            height: 256px;
+            background-color: #60a5fa;
+            animation-delay: 2s;
+        }
+
+        @keyframes blob {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+
+        
+/* ========== 반응형 (모바일) ========== */
+@media (max-width: 768px) {
+    
+    /* [핵심 수정] 데스크탑 메뉴(긴 줄)를 숨깁니다 */
+    nav {
+        display: none;
+    }
+
+    /* [핵심 수정] 햄버거 버튼을 화면에 표시합니다 */
+    .mobile-menu-button {
+        display: block; /* 기존 none에서 block으로 변경 */
+        padding: 4px;
+    }
+
+    /* 헤더 높이 및 여백 조정 */
+    .header-inner {
+        height: 60px;
+        padding: 0 12px;
+    }
+
+    /* 로고 위치 초기화 (PC용 음수 마진 제거) */
+    .logo {
+        margin-left: 0;
+    }
+
+    /* 로고 이미지 크기 모바일에 맞게 축소 */
+    .logo-image {
+        height: 40px;
+        width: auto;
+    }
+    
+
+}

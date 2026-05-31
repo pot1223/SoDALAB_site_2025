@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('soda.static', filename='contact.css')}}"/>
+    <link rel="stylesheet" href = "{{url_for('soda.static', filename='footer.css')}}"/>
+    <title>SoDA LAB - Contact</title>
+
+</head>
+<body>
+     <!-- ========== HEADER / NAVIGATION ========== -->
+    <header id="header">
+        <div class="header-inner">
+            <a href="{{url_for('soda.home')}}" class="logo" onclick="navigateTo('home'); return false;">
+                <img class="logo-image" src="{{ url_for('soda.static', filename='images/sodalab_logo_black.png') }}" alt="SoDA LAB Logo">
+            </a>
+            
+            <nav id="nav">
+                <a href="{{url_for('soda.home')}}" >Home</a>
+                
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        About us
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.intro')}}">Introduction</a>
+                        <a href="{{url_for('soda.contact')}}">Contact</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        People
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.prof')}}">Professor</a>
+                        <a href="{{url_for('soda.people')}}">Members</a>
+                        <a href="{{url_for('soda.graduate')}}">Alumni</a>
+                    </div>
+                </div>
+
+                <div class="nav-item-with-dropdown">
+                    <div class="nav-link">
+                        Research
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                        <a href="{{url_for('soda.aboard')}}">International</a>
+                        <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                        <a href="{{url_for('soda.international')}}">International Conference</a>
+                    </div>
+                </div>
+
+                <a href="{{url_for('soda.project')}}">Projects</a>
+                <a href="{{url_for('soda.award')}}">Awards</a>
+                <a href="{{url_for('soda.gallery')}}">News</a>
+            </nav>
+
+            <!-- 모바일 메뉴 버튼 -->
+            <button class="mobile-menu-button" onclick="toggleMobileMenu()">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12"/>
+                    <line x1="4" x2="20" y1="6" y2="6"/>
+                    <line x1="4" x2="20" y1="18" y2="18"/>
+                </svg>
+                <svg id="close-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 모바일 메뉴 -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="{{url_for('soda.home')}}">Home</a>
+            
+            <a href="#" style="font-weight: 600;">About us</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.intro')}}">Introduction</a>
+                <a href="{{url_for('soda.contact')}}">Contact</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">People</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.prof')}}">Professor</a>
+                <a href="{{url_for('soda.people')}}">Members</a>
+                <a href="{{url_for('soda.graduate')}}">Alumni</a>
+            </div>
+
+            <a href="#" style="font-weight: 600;">Research</a>
+            <div class="mobile-submenu">
+                <a href="{{url_for('soda.domestic')}}">Domestic</a>
+                <a href="{{url_for('soda.aboard')}}">International</a>
+                <a href="{{url_for('soda.confer')}}">Domestic Conference</a>
+                <a href="{{url_for('soda.international')}}">International Conference</a>
+            </div>
+
+            <a href="{{url_for('soda.project')}}">Projects</a>
+            <a href="{{url_for('soda.award')}}">Awards</a>
+            <a href="{{url_for('soda.gallery')}}">News</a>
+        </div>
+    </header>
+
+    <!-- 전체 페이지 래퍼 -->
+    <div class="page-wrapper">
+        <!-- 움직이는 파란 동그라미 배경들 -->
+        <div class="background-decoration">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="blob blob-4"></div>
+            <div class="blob blob-5"></div>
+            <div class="blob blob-6"></div>
+        </div>
+
+
+        <!-- 컨텐츠 영역 -->
+        <div class="contact-content">
+            <div class="container">
+                <!-- 헤더 -->
+                <div class="header">
+                    <div class="badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                        <span>Contact Us</span>
+                    </div>
+                    <h1 class="page-title">연락처</h1>
+                    <p class="page-description">
+                        연구실에 관심이 있으시거나 협업을 원하시면 언제든지 연락주세요.
+                    </p>
+                </div>
+
+                <!-- 연락처 카드 그리드 -->
+                <div class="contact-grid">
+                    <!-- Card 1: 연구실 -->
+                    <div class="contact-card">
+                        <div class="contact-card-inner">
+                            <div class="contact-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
+                                    <path d="M9 22v-4h6v4"/>
+                                    <path d="M8 6h.01"/>
+                                    <path d="M16 6h.01"/>
+                                    <path d="M12 6h.01"/>
+                                    <path d="M12 10h.01"/>
+                                    <path d="M12 14h.01"/>
+                                    <path d="M16 10h.01"/>
+                                    <path d="M16 14h.01"/>
+                                    <path d="M8 10h.01"/>
+                                    <path d="M8 14h.01"/>
+                                </svg>
+                            </div>
+                            <div class="contact-info">
+                                <h3 class="contact-title">연구실</h3>
+                                <p class="contact-content-text">경기대학교 산업경영공학과 SoDALAB 데이터 분석 연구실</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: 주소 -->
+                    <div class="contact-card">
+                        <div class="contact-card-inner">
+                            <div class="contact-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </div>
+                            <div class="contact-info">
+                                <h3 class="contact-title">주소</h3>
+                                <p class="contact-content-text">경기도 수원시 영통구 광교산로 154-42 경기대학교</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: 이메일 -->
+                    <div class="contact-card">
+                        <div class="contact-card-inner">
+                            <div class="contact-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                                </svg>
+                            </div>
+                            <div class="contact-info">
+                                <h3 class="contact-title">이메일</h3>
+                                <p class="contact-content-text">
+                                    <a href="mailto:sodalab@kyonggi.ac.kr">sodalab@kyonggi.ac.kr</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: 전화 -->
+                    <div class="contact-card">
+                        <div class="contact-card-inner">
+                            <div class="contact-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                </svg>
+                            </div>
+                            <div class="contact-info">
+                                <h3 class="contact-title">전화</h3>
+                                <p class="contact-content-text">
+                                    <a href="tel:+82312499781">+82-31-249-9781</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 지도 카드 -->
+                <div class="map-card">
+                    <h3 class="map-title">찾아오시는 길</h3>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3173.8644892334895!2d127.03450931531444!3d37.30016197984042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b5863b7f1b8b1%3A0x8b3d6c6c7c6c7c6c!2z6rK96riw64yA7ZWZ6rWQIOyImOybkOy6oO2NvOyKpA!5e0!3m2!1sko!2skr!4v1234567890123!5m2!1sko!2skr"
+                            allowfullscreen
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="경기대학교 수원캠퍼스 제2공학관"
+                        ></iframe>
+                    </div>
+                    <p class="map-caption">
+                        경기대학교 수원캠퍼스 제2공학관
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-pattern"></div>
+        <div class="footer-content">
+            <h3 class="footer-title">SoDA LAB</h3>
+            <p class="footer-address">
+                (16227) 경기도 수원시 영통구 광교산로 154-42 경기대학교 제2공학관 5층 506호
+            </p>
+            <p class="footer-copyright">
+                ⓒ 2025 SoDALAB. All rights reserved
+            </p>
+        </div>
+    </footer>
+</body>
+<script>
+    // ========== 헤더 스크롤 효과 ==========
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ========== 모바일 메뉴 토글 ==========
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.toggle('active');
+            
+            if (mobileMenu.classList.contains('active')) {
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            } else {
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.remove('active');
+            menuIcon.style.display = 'block';
+            closeIcon.style.display = 'none';
+        }
+
+        // ========== 페이지 네비게이션 ==========
+        function navigateTo(page) {
+            console.log('Navigating to:', page);
+            // 여기에 실제 페이지 전환 로직 추가
+            // 예: window.location.href = page + '.html';
+            
+            // 메뉴 활성화 상태 변경
+            const allLinks = document.querySelectorAll('nav a, .mobile-menu a');
+            allLinks.forEach(link => link.classList.remove('active'));
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== 슬라이더 기능 ==========
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+        let autoSlideTimer;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentIndex = index;
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetAutoSlide();
+        }
+
+        function previousSlide() {
+            const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+            showSlide(newIndex);
+            resetAutoSlide();
+        }
+
+        function nextSlide() {
+            const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+            showSlide(newIndex);
+            resetAutoSlide();
+        }
+
+        function startAutoSlide() {
+            autoSlideTimer = setInterval(() => {
+                nextSlide();
+            }, 5000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideTimer);
+            startAutoSlide();
+        }
+
+        startAutoSlide();
+
+        // 키보드 네비게이션
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                previousSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        // 터치 스와이프 지원
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const sliderTrack = document.querySelector('.slider-track');
+
+        sliderTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        sliderTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousSlide();
+            }
+        }
+</script>
+</html>

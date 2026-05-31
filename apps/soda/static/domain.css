@@ -1,0 +1,103 @@
+#main {
+    padding: 6em 0 2em 0;
+    z-index: 5000;
+    position:relative;
+}
+
+
+section .inner {
+    max-width: 65em;
+    width: calc(100% - 6em);
+    margin: 0 auto;
+}
+
+.entry {
+    display: inline-block;
+    width: 100%;
+    padding-top: 2em;
+}
+
+.image-left {
+    margin: 0 1.5em 0 0;
+    top: 0.25em;
+}
+
+
+
+.profile-photo {
+    width: 126px;
+    height: 126px;
+    object-fit: cover;
+    display: block;
+    margin: auto;
+}
+
+
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 메인 콘텐츠는 자동으로 늘어나게 */
+#main-content {
+  flex: 1;
+}
+
+/* footer는 항상 맨 밑으로 */
+#footer {
+  margin-top: auto;
+  text-align:left;
+}
+
+/* 반응형 대응 */
+@media screen and (max-width: 768px) {
+  #banner h1 {
+    font-size: 1.2em;
+  }
+  #banner span {
+    font-size: 0.8em;
+  }
+  .card-item {
+    height: auto;
+    padding: 1em;
+  }
+  #footer {
+    font-size: 0.7em;
+    line-height: 1.4;
+  }
+}
+
+/* ========== 반응형 (모바일) ========== */
+@media (max-width: 768px) {
+    
+    /* [핵심 수정] 데스크탑 메뉴(긴 줄)를 숨깁니다 */
+    nav {
+        display: none;
+    }
+
+    /* [핵심 수정] 햄버거 버튼을 화면에 표시합니다 */
+    .mobile-menu-button {
+        display: block; /* 기존 none에서 block으로 변경 */
+        padding: 4px;
+    }
+
+    /* 헤더 높이 및 여백 조정 */
+    .header-inner {
+        height: 60px;
+        padding: 0 12px;
+    }
+
+    /* 로고 위치 초기화 (PC용 음수 마진 제거) */
+    .logo {
+        margin-left: 0;
+    }
+
+    /* 로고 이미지 크기 모바일에 맞게 축소 */
+    .logo-image {
+        height: 40px;
+        width: auto;
+    }
+    
+
+}
