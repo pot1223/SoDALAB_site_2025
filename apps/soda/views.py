@@ -44,7 +44,7 @@ def people():
     # 1. 데이터 가져오기
     # spec은 최신순(date 내림차순)이나 중요도 순으로 정렬하는 것이 좋다면 order_by를 조정하세요.
     all_specs = member_spec.query.order_by(member_spec.date.desc()).all() 
-    present_members = present_member.query.order_by(present_member.id.desc()).all()
+    present_members = present_member.query.order_by(present_member.id).all()
 
     present_members_processed = []
 
